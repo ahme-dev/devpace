@@ -1,10 +1,10 @@
 <script setup lang="ts">
-  import { useCounterStore } from "./stores/counter";
+  import { useMainStore } from "./store";
 
-  const counterStore = useCounterStore();
+  const store = useMainStore();
 </script>
 
 <template>
-  <h1>{{ counterStore.count }}</h1>
-  <button @click="counterStore.increment"></button>
+  <h1>{{ store.count }}</h1>
+  <button @click="store.increment">Add</button>
 </template>
