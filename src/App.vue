@@ -3,6 +3,7 @@
   import { PlusFilled } from "@vicons/material";
   import {
     NGradientText,
+    NCard,
     NIcon,
     NButton,
     NGlobalStyle,
@@ -16,7 +17,7 @@
 <template>
   <NConfigProvider :theme="darkTheme">
     <!-- app -->
-    <div class="app">
+    <NCard title="App">
       <NGradientText :size="40">
         {{ store.count }}
       </NGradientText>
@@ -24,7 +25,7 @@
       <NButton @click="store.increment">
         <NIcon size="40" :component="PlusFilled"></NIcon>
       </NButton>
-    </div>
+    </NCard>
 
     <!-- style to body -->
     <NGlobalStyle></NGlobalStyle>
