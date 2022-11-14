@@ -18,7 +18,7 @@
 
 <template>
 	<NCard>
-		<NGrid :cols="2" :xGap="8">
+		<NGrid :cols="2" :xGap="16">
 			<NGridItem>
 				<NTabs
 					@beforeLeave="changeTab"

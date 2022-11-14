@@ -13,7 +13,7 @@
 
 <template>
 	<NConfigProvider :theme="darkTheme">
-		<NGrid :cols="2" :xGap="8">
+		<NGrid :cols="2" :xGap="16" style="padding: 1rem">
 			<!-- Todo - Left -->
 			<NGridItem>
 				<Notes></Notes>
