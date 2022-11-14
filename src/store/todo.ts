@@ -2,10 +2,8 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 
 export const useTodoStore = defineStore("todo", () => {
-	let state = ref({
-		today: ["Hello", "hi"],
-		tomorrow: [],
-	});
+	let today = ref<string[]>(["hello", "no"]);
+	let tomorrow = ref<string[]>([]);
 
-	return { state };
+	return { today, tomorrow };
 });

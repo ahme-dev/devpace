@@ -1,34 +1,31 @@
 <script setup lang="ts">
 	import { PlusFilled } from "@vicons/material";
-	import { NList, NListItem, NButton, NText, NIcon } from "naive-ui";
+	import { NList, NListItem, NButton, NText, NInput, NIcon } from "naive-ui";
 
 	import { useTodoStore } from "@/store/todo";
 	import { defineProps } from "vue";
 
 	// get props
-	const props = defineProps<{ type: string }>();
+	const props = defineProps<{ paneName: string }>();
 
 	// get data from store based on type of pane
 	const store = useTodoStore();
-	let data = props.type === "today" ? store.state.today : store.state.tomorrow;
+	let data = props.paneName === "today" ? store.today : store.tomorrow;
 </script>
 
 <template>
-	<!-- show data -->
-	<NList hoverable clickable>
-		<!-- when there's data -->
-		<template v-if="data.length">
-			<NListItem v-for="(item, id) in data">
-				<NText>{{ item }}</NText>
-			</NListItem>
-		</template>
+	<!-- when there's data -->
+	<NList clickable hoverable v-if="data.length">
+		<NListItem v-for="(item, id) in data">
+			<NText>{{ item }}</NText>
+		</NListItem>
+	</NList>
 
-		<!-- when there's no data -->
-		<template v-else>
-			<NListItem>
-				<NText> Nothing to show! </NText>
-			</NListItem>
-		</template>
+	<!-- no data -->
+	<NList v-else>
+		<NListItem>
+			<NText> Nothing to show! </NText>
+		</NListItem>
 	</NList>
 
 	<!-- add button -->
