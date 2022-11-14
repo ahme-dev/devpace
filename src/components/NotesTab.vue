@@ -12,13 +12,13 @@
 	let data: string[];
 	switch (props.tabName) {
 		case "yesterday":
-			data = store.yesterday;
+			data = store.state.yesterday;
 			break;
 		case "today":
-			data = store.today;
+			data = store.state.today;
 			break;
 		case "tomorrow":
-			data = store.tomorrow;
+			data = store.state.tomorrow;
 			break;
 	}
 </script>
