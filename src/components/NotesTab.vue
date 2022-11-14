@@ -9,24 +9,24 @@
 
 	// get data from store based on type of pane
 	const store = useNotesStore();
-	let data: string[];
-	switch (props.tabName) {
-		case "yesterday":
-			data = store.state.yesterday;
-			break;
-		case "today":
-			data = store.state.today;
-			break;
-		case "tomorrow":
-			data = store.state.tomorrow;
-			break;
-	}
+	let data =
+		props.tabName == "today"
+			? store.state.today
+			: props.tabName == "yesterday"
+			? store.state.yesterday
+			: store.state.tomorrow;
+
+	// item was clicked
+	const itemClicked = (id: number) => {
+		store.ui.onNote = id;
+		console.log(id);
+	};
 </script>
 
 <template>
 	<!-- when there's data -->
 	<NList clickable hoverable v-if="data.length">
-		<NListItem v-for="item in data">
+		<NListItem v-for="(item, id) in data" @click="itemClicked(id)">
 			<NText>{{ item }}</NText>
 		</NListItem>
 	</NList>
