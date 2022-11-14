@@ -2,10 +2,10 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 
 export const useMainStore = defineStore("main", () => {
-	const count = ref(0);
-	const increment = () => {
-		count.value++;
-	};
+	const todo = ref({
+		today: [],
+		tomorrow: [],
+	});
 
-	return { count, increment };
+	return { todo };
 });

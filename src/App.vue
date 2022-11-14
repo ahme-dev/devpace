@@ -14,14 +14,17 @@
 <template>
 	<NConfigProvider :theme="darkTheme">
 		<NGrid :cols="2" :xGap="8">
+			<!-- Todo - Left -->
 			<NGridItem>
 				<Todo></Todo>
 			</NGridItem>
 
+			<!-- Pomodoro - Right -->
 			<NGridItem>
 				<Pomodoro></Pomodoro>
 			</NGridItem>
 		</NGrid>
+
 		<!-- style to body -->
 		<NGlobalStyle></NGlobalStyle>
 	</NConfigProvider>
