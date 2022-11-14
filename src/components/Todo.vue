@@ -1,22 +1,17 @@
 <script setup lang="ts">
 	import { NCard, NTabs, NTabPane } from "naive-ui";
-	import TodoSection from "./TodoSection.vue";
+	import TodoPane from "./TodoPane.vue";
 
-	import { useMainStore } from "@/store";
-	const store = useMainStore();
+	import { useTodoStore } from "@/store/todo";
+	const store = useTodoStore();
+	const tabs = Object.keys(store.state);
 </script>
 
 <template>
 	<NCard>
 		<NTabs type="line" animated>
-			<!-- today -->
-			<NTabPane name="today" tab="Today">
-				<TodoSection :data="store.todo.today"></TodoSection>
-			</NTabPane>
-
-			<!-- tomorrow -->
-			<NTabPane name="tomorrow" tab="Tomorrow">
-				<TodoSection :data="store.todo.tomorrow"></TodoSection>
+			<NTabPane v-for="type in tabs" :name="type" :tab="type">
+				<TodoPane :type="type"></TodoPane>
 			</NTabPane>
 		</NTabs>
 	</NCard>
