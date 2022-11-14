@@ -1,22 +1,32 @@
 <script setup lang="ts">
 	import { PlusFilled } from "@vicons/material";
-	import { NList, NListItem, NButton, NText, NInput, NIcon } from "naive-ui";
+	import { NList, NListItem, NButton, NText, NIcon } from "naive-ui";
 
-	import { useTodoStore } from "@/store/todo";
+	import { useNotesStore } from "@/store/notes";
 	import { defineProps } from "vue";
 
-	// get props
-	const props = defineProps<{ paneName: string }>();
+	const props = defineProps<{ tabName: string }>();
 
 	// get data from store based on type of pane
-	const store = useTodoStore();
-	let data = props.paneName === "today" ? store.today : store.tomorrow;
+	const store = useNotesStore();
+	let data: string[];
+	switch (props.tabName) {
+		case "yesterday":
+			data = store.yesterday;
+			break;
+		case "today":
+			data = store.today;
+			break;
+		case "tomorrow":
+			data = store.tomorrow;
+			break;
+	}
 </script>
 
 <template>
 	<!-- when there's data -->
 	<NList clickable hoverable v-if="data.length">
-		<NListItem v-for="(item, id) in data">
+		<NListItem v-for="item in data">
 			<NText>{{ item }}</NText>
 		</NListItem>
 	</NList>

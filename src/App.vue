@@ -1,6 +1,6 @@
 <script setup lang="ts">
 	import Pomodoro from "./components/Pomodoro.vue";
-	import Todo from "./components/Todo.vue";
+	import Notes from "./components/Notes.vue";
 
 	import {
 		NGrid,
@@ -16,7 +16,7 @@
 		<NGrid :cols="2" :xGap="8">
 			<!-- Todo - Left -->
 			<NGridItem>
-				<Todo></Todo>
+				<Notes></Notes>
 			</NGridItem>
 
 			<!-- Pomodoro - Right -->
