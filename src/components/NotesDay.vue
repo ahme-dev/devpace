@@ -1,28 +1,28 @@
 <script setup lang="ts">
 	import { PlusFilled } from "@vicons/material";
 	import { NList, NListItem, NButton, NText, NInput, NIcon } from "naive-ui";
-	import type { Tabs } from "@/store/notes";
+	import type { Days } from "@/store/notes";
 
 	import { useNotesStore } from "@/store/notes";
 	import { defineProps } from "vue";
 
-	const props = defineProps<{ tabName: Tabs }>();
+	const props = defineProps<{ dayName: Days }>();
 
 	// get data from store based on type of pane
 	const store = useNotesStore();
-	let tab = store.getState(props.tabName);
+	let day = store.getDay(props.dayName);
 </script>
 
 <template>
 	<!-- when there's data -->
-	<NList v-if="tab.notes.length">
-		<NListItem v-for="item in tab.notes">
+	<NList v-if="day.notes.length">
+		<NListItem v-for="(item, id) in day.notes">
 			<NInput
 				type="textarea"
 				:autosize="{
 					maxRows: 5,
 				}"
-				v-model:value="item.title"
+				v-model:value="day.notes[id]"
 			></NInput>
 		</NListItem>
 	</NList>

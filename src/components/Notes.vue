@@ -1,6 +1,6 @@
 <script setup lang="ts">
-	import { NCard, NTabs, NTabPane, NGrid, NGridItem } from "naive-ui";
-	import NotesTab from "./NotesTab.vue";
+	import { NCard, NTabs, NTabPane } from "naive-ui";
+	import NotesDay from "./NotesDay.vue";
 
 	import { useNotesStore } from "@/store/notes";
 	const store = useNotesStore();
@@ -9,8 +9,8 @@
 <template>
 	<NCard>
 		<NTabs type="line" animated defaultValue="today">
-			<NTabPane v-for="tab in store.state" :name="tab.name" :tab="tab.name">
-				<NotesTab :tabName="tab.name"></NotesTab>
+			<NTabPane v-for="day in store.days" :name="day.name" :tab="day.name">
+				<NotesDay :dayName="day.name"></NotesDay>
 			</NTabPane>
 		</NTabs>
 	</NCard>
