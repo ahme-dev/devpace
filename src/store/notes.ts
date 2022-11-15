@@ -34,5 +34,13 @@ export const useNotesStore = defineStore("notes", () => {
 		return tab ? tab : days.value[1];
 	};
 
-	return { days, getDay };
+	let insertInDay = (day: Day) => day.notes.push("new");
+
+	let cleanInDay = (day: Day) =>
+		setTimeout(
+			() => (day.notes = day.notes.filter((note) => note.trim() !== "")),
+			1000
+		);
+
+	return { days, getDay, insertInDay, cleanInDay };
 });
