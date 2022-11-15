@@ -1,7 +1,12 @@
 <script setup lang="ts">
-	import { NCard } from "naive-ui";
+	import { NCard, NText, NGradientText, NSpace } from "naive-ui";
 </script>
 
 <template>
-	<NCard>9</NCard>
+	<NCard>
+		<NSpace vertical>
+			<NText type="primary">Do</NText>
+			<NText type="primary">Do</NText>
+		</NSpace>
+	</NCard>
 </template>
