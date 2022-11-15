@@ -9,7 +9,7 @@
 <template>
 	<NCard>
 		<NTabs
-			type="line"
+			type="bar"
 			tabStyle="padding-top: 0rem; margin-top: 0rem"
 			animated
 			defaultValue="today"
