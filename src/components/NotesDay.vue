@@ -22,7 +22,7 @@
 				:autosize="{
 					maxRows: 5,
 				}"
-				@blur="store.cleanInDay(day)"
+				@blur="store.cleanNotes(day)"
 				show-count
 				placeholder="write something"
 				v-model:value="day.notes[id]"
@@ -38,7 +38,7 @@
 	</NList>
 
 	<!-- add button -->
-	<NButton @click="store.insertInDay(day)" style="margin-top: 1rem">
+	<NButton @click="store.addNote(day)" style="margin-top: 1rem">
 		<template #icon>
 			<NIcon>
 				<PlusFilled></PlusFilled>
