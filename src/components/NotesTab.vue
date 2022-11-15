@@ -1,33 +1,29 @@
 <script setup lang="ts">
 	import { PlusFilled } from "@vicons/material";
-	import { NList, NListItem, NButton, NText, NIcon } from "naive-ui";
+	import { NList, NListItem, NButton, NText, NInput, NIcon } from "naive-ui";
+	import type { Tabs } from "@/store/notes";
 
 	import { useNotesStore } from "@/store/notes";
 	import { defineProps } from "vue";
 
-	const props = defineProps<{ tabName: string }>();
+	const props = defineProps<{ tabName: Tabs }>();
 
 	// get data from store based on type of pane
 	const store = useNotesStore();
-	let data =
-		props.tabName == "today"
-			? store.state.today
-			: props.tabName == "yesterday"
-			? store.state.yesterday
-			: store.state.tomorrow;
-
-	// item was clicked
-	const itemClicked = (id: number) => {
-		store.ui.onNote = id;
-		console.log(id);
-	};
+	let tab = store.getState(props.tabName);
 </script>
 
 <template>
 	<!-- when there's data -->
-	<NList clickable hoverable v-if="data.length">
-		<NListItem v-for="(item, id) in data" @click="itemClicked(id)">
-			<NText>{{ item }}</NText>
+	<NList v-if="tab.notes.length">
+		<NListItem v-for="item in tab.notes">
+			<NInput
+				type="textarea"
+				:autosize="{
+					maxRows: 5,
+				}"
+				v-model:value="item.title"
+			></NInput>
 		</NListItem>
 	</NList>
 
