@@ -26,7 +26,7 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 		config: {
 			rounds: 2,
 			focus: 30,
-			break: 5,
+			break: 6,
 			rest: 15,
 		},
 	});
