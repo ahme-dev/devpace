@@ -4,8 +4,6 @@
 		NCard,
 		NText,
 		NSpace,
-		NSlider,
-		NInputNumber,
 		NGrid,
 		NGridItem,
 		NTimeline,
@@ -14,78 +12,48 @@
 		NIcon,
 	} from "naive-ui";
 
+	import PomodoroItem from "./PomodoroItem.vue";
+
 	import { usePomodoroStore } from "@/store/pomodoro";
 	const store = usePomodoroStore();
-
-	let marks = {
-		rounds: {
-			1: "1",
-			2: "2",
-			3: "3",
-			4: "4",
-		},
-		focus: {
-			20: "20",
-			30: "30",
-			40: "40",
-			50: "50",
-			60: "60",
-		},
-		break: {
-			5: "5",
-			10: "10",
-			15: "15",
-		},
-		rest: {
-			10: "10",
-			15: "15",
-			20: "20",
-		},
-	};
 </script>
 
 <template>
 	<NCard>
-		<NGrid :cols="2">
-			<NGridItem>
+		<NGrid :cols="3">
+			<NGridItem span="2">
 				<NSpace vertical :size="25">
 					<NText size="large" type="primary">do</NText>
 
 					<NSpace vertical>
-						<NSlider
+						<PomodoroItem
+							name="Rounds"
+							bind="rounds"
 							:min="1"
 							:max="4"
-							:marks="marks.rounds"
-							:tooltip="false"
-							v-model:value="store.current.config.rounds"
-						></NSlider>
-
-						<NSlider
+							:step="1"
+						/>
+						<PomodoroItem
+							name="Focus"
+							bind="focus"
 							:min="20"
 							:max="60"
-							:marks="marks.focus"
-							:step="5"
-							:tooltip="false"
-							v-model:value="store.current.config.focus"
-						></NSlider>
-
-						<NSlider
+							:step="10"
+						/>
+						<PomodoroItem
+							name="Break"
+							bind="break"
 							:min="5"
 							:max="15"
 							:step="5"
-							:marks="marks.break"
-							:tooltip="false"
-							v-model:value="store.current.config.break"
-						></NSlider>
-
-						<NSlider
+						/>
+						<PomodoroItem
+							name="Rest"
+							bind="rest"
 							:min="10"
 							:max="20"
 							:step="5"
-							:marks="marks.rest"
-							:tooltip="false"
-							v-model:value="store.current.config.rest"
-						></NSlider>
+						/>
 					</NSpace>
 
 					<NText>

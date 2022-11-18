@@ -16,6 +16,8 @@ interface SessionConfig {
 	rest: number;
 }
 
+export type ConfigKeys = "rounds" | "focus" | "break" | "rest";
+
 // data
 
 export const usePomodoroStore = defineStore("pomodoro", () => {
