@@ -10,6 +10,10 @@
 		NTimelineItem,
 		NButton,
 		NIcon,
+		NStatistic,
+		NNumberAnimation,
+		NCountdown,
+		NGradientText,
 	} from "naive-ui";
 
 	import PomodoroItem from "./PomodoroItem.vue";
@@ -43,9 +47,9 @@
 						<PomodoroItem
 							name="Break"
 							bind="break"
-							:min="5"
+							:min="3"
 							:max="15"
-							:step="5"
+							:step="3"
 						/>
 						<PomodoroItem
 							name="Rest"
@@ -68,12 +72,18 @@
 						minutes.
 					</NText>
 
-					<NButton>
-						<template #icon>
-							<NIcon> <PlayArrowFilled></PlayArrowFilled> </NIcon>
-						</template>
-						Start
-					</NButton>
+					<NSpace align="center">
+						<NButton>
+							<template #icon>
+								<NIcon> <PlayArrowFilled></PlayArrowFilled> </NIcon>
+							</template>
+							Start
+						</NButton>
+
+						<hr />
+
+						<NGradientText :size="24">{{ store.current.at }}</NGradientText>
+					</NSpace>
 				</NSpace>
 			</NGridItem>
 
