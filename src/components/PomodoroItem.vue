@@ -11,6 +11,7 @@
 		min: number;
 		max: number;
 		step: number;
+		disable: boolean;
 	}>();
 </script>
 
@@ -24,6 +25,7 @@
 		<!-- Input -->
 		<NGridItem>
 			<NInputNumber
+				:disabled="props.disable"
 				:min="props.min"
 				:max="props.max"
 				:step="props.step"
@@ -37,6 +39,7 @@
 				:min="props.min"
 				:max="props.max"
 				:step="props.step"
+				:disabled="props.disable"
 				:tooltip="false"
 				v-model:value="store.current.config[props.bind]"
 			></NSlider>

@@ -36,6 +36,7 @@
 							:min="1"
 							:max="4"
 							:step="1"
+							:disable="store.current.at > 0"
 						/>
 						<PomodoroItem
 							name="Focus"
@@ -43,6 +44,7 @@
 							:min="20"
 							:max="60"
 							:step="10"
+							:disable="store.current.at > 0"
 						/>
 						<PomodoroItem
 							name="Break"
@@ -50,6 +52,7 @@
 							:min="3"
 							:max="15"
 							:step="3"
+							:disable="store.current.at > 0"
 						/>
 						<PomodoroItem
 							name="Rest"
@@ -57,6 +60,7 @@
 							:min="10"
 							:max="20"
 							:step="5"
+							:disable="store.current.at > 0"
 						/>
 					</NSpace>
 
@@ -69,7 +73,8 @@
 						<b>{{ store.current.config.break }}</b>
 						minute break(s) in-between, and a final rest period of
 						<b>{{ store.current.config.rest }}</b>
-						minutes.
+						minutes. Totalling
+						<b> {{ store.getDuration(store.current) }}</b> minutes.
 					</NText>
 
 					<NSpace align="center">

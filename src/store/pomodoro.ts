@@ -24,7 +24,7 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 	// current session
 	let current = ref<Session>({
 		running: false,
-		at: 0,
+		at: 1,
 		config: {
 			rounds: 2,
 			focus: 30,
@@ -57,5 +57,13 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 		},
 	]);
 
-	return { current, history };
+	const getDuration = (s: Session) => {
+		return (
+			s.config.rounds * s.config.focus +
+			(s.config.rounds - 1) * s.config.break +
+			s.config.rest
+		);
+	};
+
+	return { current, history, getDuration };
 });
