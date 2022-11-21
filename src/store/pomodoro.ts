@@ -7,6 +7,7 @@ interface Session {
 	running: boolean;
 	at: number;
 	config: SessionConfig;
+	stages: SessionStage[];
 }
 
 interface SessionConfig {
@@ -14,6 +15,13 @@ interface SessionConfig {
 	focus: number;
 	break: number;
 	rest: number;
+}
+
+interface SessionStage {
+	start: number;
+	end: number;
+	// will have to change
+	type: ConfigKeys;
 }
 
 export type ConfigKeys = "rounds" | "focus" | "break" | "rest";
@@ -24,13 +32,14 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 	// current session
 	let current = ref<Session>({
 		running: false,
-		at: 1,
+		at: 0,
 		config: {
 			rounds: 2,
 			focus: 30,
 			break: 6,
 			rest: 15,
 		},
+		stages: [],
 	});
 
 	// history of sessions
@@ -44,6 +53,7 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 				break: 5,
 				rest: 15,
 			},
+			stages: [],
 		},
 		{
 			running: false,
@@ -54,6 +64,7 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 				break: 5,
 				rest: 10,
 			},
+			stages: [],
 		},
 	]);
 
@@ -62,5 +73,60 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 		return c.rounds * c.focus + (c.rounds - 1) * c.break + c.rest;
 	};
 
-	return { current, history, getDuration };
+	// add map of stages for session
+	const mapStages = (s: Session) => {
+		// list of stages
+		let stages = <SessionStage[]>[];
+
+		// get the end value of the last element
+		let getLastEnd = (list: SessionStage[]) =>
+			list.length === 0 ? 0 : list[list.length - 1].end;
+
+		// map all stages into the list
+		for (let i = 0; i < s.config.rounds; i++) {
+			// add focus stage
+			stages.push({
+				type: "focus",
+				start: getLastEnd(stages),
+				end: getLastEnd(stages) + s.config.focus,
+			});
+
+			// if last round, only add rest and skip break
+			if (i + 1 == s.config.rounds) {
+				stages.push({
+					type: "rest",
+					start: getLastEnd(stages),
+					end: getLastEnd(stages) + s.config.rest,
+				});
+				continue;
+			}
+
+			// add break stage
+			stages.push({
+				type: "break",
+				start: getLastEnd(stages),
+				end: getLastEnd(stages) + s.config.break,
+			});
+		}
+
+		// add stages list to session
+		s.stages = stages;
+	};
+
+	// get the stage at which the session is at
+	const getStage = (s: Session): SessionStage => {
+		// add stage mapping if not found on session
+		if (s.stages.length === 0) mapStages(s);
+
+		// go through each stage
+		for (let stage of s.stages) {
+			// return if at the range for stage
+			if (stage.start <= s.at && s.at <= stage.end) return stage;
+		}
+
+		// return last stage if couldn't determine
+		return s.stages[s.stages.length - 1];
+	};
+
+	return { current, history, getDuration, getStage };
 });

@@ -20,6 +20,14 @@
 
 	import { usePomodoroStore } from "@/store/pomodoro";
 	const store = usePomodoroStore();
+
+	let config = () => ({
+		rounds: store.current.config.rounds,
+		focus: store.current.config.focus,
+		break: store.current.config.break,
+		rest: store.current.config.rest,
+		duration: store.getDuration(store.current.config),
+	});
 </script>
 
 <template>
@@ -68,15 +76,15 @@
 					<!-- Info -->
 					<NText>
 						Your session will be made up of
-						<b>{{ store.current.config.rounds }}</b>
+						<b>{{ config().rounds }}</b>
 						rounds of
-						<b>{{ store.current.config.focus }}</b>
+						<b>{{ config().focus }}</b>
 						minutes focus periods, with
-						<b>{{ store.current.config.break }}</b>
+						<b>{{ config().break }}</b>
 						minute break(s) in-between, and a final rest period of
-						<b>{{ store.current.config.rest }}</b>
+						<b>{{ config().rest }}</b>
 						minutes. Totalling
-						<b> {{ store.getDuration(store.current.config) }}</b> minutes.
+						<b> {{ config().duration }}</b> minutes.
 					</NText>
 
 					<!-- Button and Counter -->
@@ -88,7 +96,9 @@
 							Start
 						</NButton>
 
-						<hr />
+						<NText>
+							{{ store.getStage(store.current).type }}
+						</NText>
 
 						<NGradientText :size="24">{{ store.current.at }}</NGradientText>
 					</NSpace>
