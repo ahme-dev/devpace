@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 
 // types
 
-export type Days = "yesterday" | "today" | "tomorrow";
+export type Days = "today" | "tomorrow";
 
 export interface Day {
 	name: Days;
@@ -14,10 +14,6 @@ export interface Day {
 
 export const useNotesStore = defineStore("notes", () => {
 	let days = ref<Day[]>([
-		{
-			name: "yesterday",
-			notes: [],
-		},
 		{
 			name: "today",
 			notes: ["Hello"],

@@ -15,7 +15,7 @@
 
 <template>
 	<!-- when there's data -->
-	<NList v-if="day.notes.length">
+	<NList style="max-height: 70vh; overflow-y: scroll" v-if="day.notes.length">
 		<NListItem v-for="(item, id) in day.notes">
 			<NInput
 				type="textarea"
