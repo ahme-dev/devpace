@@ -29,6 +29,7 @@
 				<NSpace vertical :size="25">
 					<NText size="large" type="primary">do</NText>
 
+					<!-- Sliders -->
 					<NSpace vertical>
 						<PomodoroItem
 							name="Rounds"
@@ -64,6 +65,7 @@
 						/>
 					</NSpace>
 
+					<!-- Info -->
 					<NText>
 						Your session will be made up of
 						<b>{{ store.current.config.rounds }}</b>
@@ -77,6 +79,7 @@
 						<b> {{ store.getDuration(store.current) }}</b> minutes.
 					</NText>
 
+					<!-- Button and Counter -->
 					<NSpace align="center">
 						<NButton>
 							<template #icon>
@@ -92,6 +95,7 @@
 				</NSpace>
 			</NGridItem>
 
+			<!-- Timeline -->
 			<NGridItem>
 				<NSpace justify="center" style="overflow: auto">
 					<NTimeline>
