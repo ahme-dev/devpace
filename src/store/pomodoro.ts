@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { ref, renderSlot } from "vue";
 import { defineStore } from "pinia";
 
 // types
@@ -57,12 +57,9 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 		},
 	]);
 
-	const getDuration = (s: Session) => {
-		return (
-			s.config.rounds * s.config.focus +
-			(s.config.rounds - 1) * s.config.break +
-			s.config.rest
-		);
+	// get the overall duration of the session from the config
+	const getDuration = (c: SessionConfig) => {
+		return c.rounds * c.focus + (c.rounds - 1) * c.break + c.rest;
 	};
 
 	return { current, history, getDuration };

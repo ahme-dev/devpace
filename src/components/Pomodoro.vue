@@ -76,7 +76,7 @@
 						minute break(s) in-between, and a final rest period of
 						<b>{{ store.current.config.rest }}</b>
 						minutes. Totalling
-						<b> {{ store.getDuration(store.current) }}</b> minutes.
+						<b> {{ store.getDuration(store.current.config) }}</b> minutes.
 					</NText>
 
 					<!-- Button and Counter -->
