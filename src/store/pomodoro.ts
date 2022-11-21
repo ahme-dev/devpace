@@ -32,7 +32,7 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 	// current session
 	let current = ref<Session>({
 		running: false,
-		at: 0,
+		at: 31,
 		config: {
 			rounds: 2,
 			focus: 30,

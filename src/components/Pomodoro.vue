@@ -21,12 +21,19 @@
 	import { usePomodoroStore } from "@/store/pomodoro";
 	const store = usePomodoroStore();
 
-	let config = () => ({
+	// shortcut for getting data from store
+	let get = () => ({
+		at: store.current.at,
 		rounds: store.current.config.rounds,
 		focus: store.current.config.focus,
 		break: store.current.config.break,
 		rest: store.current.config.rest,
 		duration: store.getDuration(store.current.config),
+
+		stage: store.getStage(store.current).type,
+		stageAt: store.current.at - store.getStage(store.current).start,
+		stageDuration:
+			store.getStage(store.current).end - store.getStage(store.current).start,
 	});
 </script>
 
@@ -76,15 +83,15 @@
 					<!-- Info -->
 					<NText>
 						Your session will be made up of
-						<b>{{ config().rounds }}</b>
+						<b>{{ get().rounds }}</b>
 						rounds of
-						<b>{{ config().focus }}</b>
+						<b>{{ get().focus }}</b>
 						minutes focus periods, with
-						<b>{{ config().break }}</b>
+						<b>{{ get().break }}</b>
 						minute break(s) in-between, and a final rest period of
-						<b>{{ config().rest }}</b>
+						<b>{{ get().rest }}</b>
 						minutes. Totalling
-						<b> {{ config().duration }}</b> minutes.
+						<b>{{ get().duration }}</b> minutes.
 					</NText>
 
 					<!-- Button and Counter -->
@@ -96,11 +103,10 @@
 							Start
 						</NButton>
 
-						<NText>
-							{{ store.getStage(store.current).type }}
-						</NText>
-
-						<NGradientText :size="24">{{ store.current.at }}</NGradientText>
+						<NGradientText :size="24">
+							{{ get().stage }}
+							{{ get().stageAt }}:{{ get().stageDuration }}
+						</NGradientText>
 					</NSpace>
 				</NSpace>
 			</NGridItem>
