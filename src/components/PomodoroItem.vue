@@ -16,7 +16,7 @@
 </script>
 
 <template>
-	<NGrid :cols="4" :xGap="16" style="align-items: center">
+	<NGrid :cols="5" :xGap="16" style="align-items: center">
 		<!-- Text -->
 		<NGridItem style="text-align: end">
 			<NText> {{ props.name }}</NText>
@@ -25,16 +25,17 @@
 		<!-- Input -->
 		<NGridItem>
 			<NInputNumber
+				:showButton="false"
 				:disabled="props.disable"
 				:min="props.min"
 				:max="props.max"
 				:step="props.step"
 				v-model:value="store.current.config[props.bind]"
-			></NInputNumber>
+			/>
 		</NGridItem>
 
 		<!-- Slider -->
-		<NGridItem span="2">
+		<NGridItem span="3">
 			<NSlider
 				:min="props.min"
 				:max="props.max"
