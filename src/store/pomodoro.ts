@@ -6,6 +6,7 @@ import { defineStore } from "pinia";
 interface Session {
 	running: boolean;
 	at: number;
+	stopFunc: () => void;
 	config: SessionConfig;
 	stages: SessionStage[];
 }
@@ -33,6 +34,7 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 	let current = ref<Session>({
 		running: false,
 		at: 0,
+		stopFunc: () => {},
 		config: {
 			rounds: 2,
 			focus: 30,
@@ -47,6 +49,7 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 		{
 			running: false,
 			at: 80,
+			stopFunc: () => {},
 			config: {
 				rounds: 2,
 				focus: 30,
@@ -58,6 +61,7 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 		{
 			running: false,
 			at: 75,
+			stopFunc: () => {},
 			config: {
 				rounds: 3,
 				focus: 20,
@@ -80,7 +84,7 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 
 		// get the end value of the last element
 		let getLastEnd = (list: SessionStage[]) =>
-			list.length === 0 ? 0 : list[list.length - 1].end;
+			list.length === 0 ? 0 : list[list.length - 1].end + 1;
 
 		// map all stages into the list
 		for (let i = 0; i < s.config.rounds; i++) {
@@ -88,7 +92,7 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 			stages.push({
 				type: "focus",
 				start: getLastEnd(stages),
-				end: getLastEnd(stages) + s.config.focus,
+				end: getLastEnd(stages) + s.config.focus - 1,
 			});
 
 			// if last round, only add rest and skip break
@@ -96,7 +100,7 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 				stages.push({
 					type: "rest",
 					start: getLastEnd(stages),
-					end: getLastEnd(stages) + s.config.rest,
+					end: getLastEnd(stages) + s.config.rest - 1,
 				});
 				continue;
 			}
@@ -105,7 +109,7 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 			stages.push({
 				type: "break",
 				start: getLastEnd(stages),
-				end: getLastEnd(stages) + s.config.break,
+				end: getLastEnd(stages) + s.config.break - 1,
 			});
 		}
 
@@ -132,9 +136,28 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 
 	const startSession = () => {
 		current.value.running = true;
-		setInterval(() => {
+		const interval = setInterval(() => {
+			// if running add value
 			if (current.value.running) current.value.at += 1;
+
+			// if finished, stop session
+			if (current.value.at === getDuration(current.value.config)) stopSession();
 		}, 1000);
+
+		current.value.stopFunc = () => {
+			clearInterval(interval);
+		};
+	};
+
+	const stopSession = () => {
+		// stop the running interval
+		current.value.stopFunc();
+		current.value.running = false;
+		// add to history
+		console.log("At", current.value.at);
+		history.value.push(current.value);
+		// reset position to 0
+		current.value.at = 0;
 	};
 
 	const resumeSession = () => (current.value.running = true);
