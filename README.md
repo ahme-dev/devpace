@@ -6,6 +6,6 @@
 ![GitHub](https://img.shields.io/github/license/ahmedkapro/devpace?style=for-the-badge&color=red)
 # Devpace
 
-Pacing and planning webapp for controlling and directing your coding time.
+Pacing and planning webapp for tracking and directing your coding time.
 
 Using Vue ⚡ + NaiveUI ✔
