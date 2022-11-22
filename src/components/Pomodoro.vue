@@ -17,8 +17,10 @@
 	} from "naive-ui";
 
 	import PomodoroItem from "./PomodoroItem.vue";
+	import PomodoroTimeline from "./PomodoroTimeline.vue";
 
 	import { usePomodoroStore } from "@/store/pomodoro";
+	import PomodoroInfo from "./PomodoroInfo.vue";
 	const store = usePomodoroStore();
 
 	// shortcut for getting data from store
@@ -39,6 +41,14 @@
 		store.getStage(store.current).end - store.getStage(store.current).start;
 
 	let stage = () => store.getStage(store.current);
+
+	const sessionControl = () => {
+		get().at === 0
+			? store.startSession()
+			: get().running
+			? store.pauseSession()
+			: store.resumeSession();
+	};
 </script>
 
 <template>
@@ -56,7 +66,7 @@
 							:min="1"
 							:max="4"
 							:step="1"
-							:disable="store.current.at > 0"
+							:disable="get().at > 0"
 						/>
 						<PomodoroItem
 							name="Focus"
@@ -64,7 +74,7 @@
 							:min="20"
 							:max="60"
 							:step="10"
-							:disable="store.current.at > 0"
+							:disable="get().at > 0"
 						/>
 						<PomodoroItem
 							name="Break"
@@ -72,7 +82,7 @@
 							:min="3"
 							:max="15"
 							:step="3"
-							:disable="store.current.at > 0"
+							:disable="get().at > 0"
 						/>
 						<PomodoroItem
 							name="Rest"
@@ -80,69 +90,24 @@
 							:min="10"
 							:max="20"
 							:step="5"
-							:disable="store.current.at > 0"
+							:disable="get().at > 0"
 						/>
 					</NSpace>
 
-					<!-- Session Info (only show before run) -->
-					<NText v-if="get().at === 0">
-						Your session will be made up of
-						<b>{{ get().rounds }}</b>
-						rounds of
-						<b>{{ get().focus }}</b>
-						minutes focus periods, with
-						<b>{{ get().break }}</b>
-						minute break(s) in-between, and a final rest period of
-						<b>{{ get().rest }}</b>
-						minutes. Totalling
-						<b>{{ get().duration }}</b> minutes.
-					</NText>
+					<!-- Info -->
+					<PomodoroInfo />
 
-					<!-- Session Stage Highlighter (only shows on run) -->
-					<NSpace align="center" v-else>
-						<template v-for="s in store.current.stages">
-							<NButton
-								size="small"
-								v-if="s == stage()"
-								strong
-								secondary
-								type="primary"
-							>
-								{{ s.type }}
-							</NButton>
-
-							<NButton size="small" v-else strong secondary>
-								{{ s.type }}
-							</NButton>
-						</template>
-					</NSpace>
-
+					<!-- Buttons and Counter -->
 					<NSpace align="center">
-						<!-- Button (at start) -->
-						<NButton v-if="get().at === 0" @click="store.startSession">
+						<NButton circle @click="sessionControl()">
 							<template #icon>
-								<NIcon> <PlayArrowFilled></PlayArrowFilled> </NIcon>
+								<NIcon>
+									<PauseFilled v-if="get().running" />
+									<PlayArrowFilled v-else />
+								</NIcon>
 							</template>
-							Start
 						</NButton>
 
-						<!-- Button (when stopped) -->
-						<NButton v-else-if="!get().running" @click="store.resumeSession">
-							<template #icon>
-								<NIcon> <PlayArrowFilled></PlayArrowFilled> </NIcon>
-							</template>
-							Resume
-						</NButton>
-
-						<!-- Button (when running) -->
-						<NButton v-else-if="get().running" @click="store.pauseSession">
-							<template #icon>
-								<NIcon> <PauseFilled></PauseFilled> </NIcon>
-							</template>
-							Pause
-						</NButton>
-
-						<!-- Counter (only shows on run) -->
 						<NButton
 							:loading="get().running"
 							strong
@@ -158,14 +123,7 @@
 
 			<!-- Timeline -->
 			<NGridItem>
-				<NSpace justify="center" style="overflow: auto">
-					<NTimeline>
-						<NTimelineItem
-							v-for="s in store.history"
-							:content="s.at.toString()"
-						/>
-					</NTimeline>
-				</NSpace>
+				<PomodoroTimeline></PomodoroTimeline>
 			</NGridItem>
 		</NGrid>
 	</NCard>
