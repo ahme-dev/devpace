@@ -38,12 +38,11 @@
 	</NList>
 
 	<!-- add button -->
-	<NButton @click="store.addNote(day)" style="margin-top: 1rem">
+	<NButton circle @click="store.addNote(day)" style="margin-top: 1rem">
 		<template #icon>
 			<NIcon>
 				<PlusFilled></PlusFilled>
 			</NIcon>
 		</template>
-		Add
 	</NButton>
 </template>

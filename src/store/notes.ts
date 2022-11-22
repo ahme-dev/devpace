@@ -16,7 +16,7 @@ export const useNotesStore = defineStore("notes", () => {
 	let days = ref<Day[]>([
 		{
 			name: "today",
-			notes: ["Hello"],
+			notes: [],
 		},
 		{
 			name: "tomorrow",
