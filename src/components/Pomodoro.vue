@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import { PlayArrowFilled } from "@vicons/material";
+	import { PlayArrowFilled, PauseFilled } from "@vicons/material";
 	import {
 		NCard,
 		NText,
@@ -24,17 +24,21 @@
 	// shortcut for getting data from store
 	let get = () => ({
 		at: store.current.at,
+		running: store.current.running,
 		rounds: store.current.config.rounds,
+
 		focus: store.current.config.focus,
 		break: store.current.config.break,
 		rest: store.current.config.rest,
 		duration: store.getDuration(store.current.config),
-
-		stage: store.getStage(store.current).type,
-		stageAt: store.current.at - store.getStage(store.current).start,
-		stageDuration:
-			store.getStage(store.current).end - store.getStage(store.current).start,
 	});
+
+	let stageType = () => store.getStage(store.current).type;
+	let stageAt = () => store.current.at - store.getStage(store.current).start;
+	let stageDuration = () =>
+		store.getStage(store.current).end - store.getStage(store.current).start;
+
+	let stage = () => store.getStage(store.current);
 </script>
 
 <template>
@@ -80,8 +84,8 @@
 						/>
 					</NSpace>
 
-					<!-- Info -->
-					<NText>
+					<!-- Session Info (only show before run) -->
+					<NText v-if="get().at === 0">
 						Your session will be made up of
 						<b>{{ get().rounds }}</b>
 						rounds of
@@ -94,19 +98,60 @@
 						<b>{{ get().duration }}</b> minutes.
 					</NText>
 
-					<!-- Button and Counter -->
+					<!-- Session Stage Highlighter (only shows on run) -->
+					<NSpace align="center" v-else>
+						<template v-for="s in store.current.stages">
+							<NButton
+								size="small"
+								v-if="s == stage()"
+								strong
+								secondary
+								type="primary"
+							>
+								{{ s.type }}
+							</NButton>
+
+							<NButton size="small" v-else strong secondary>
+								{{ s.type }}
+							</NButton>
+						</template>
+					</NSpace>
+
 					<NSpace align="center">
-						<NButton>
+						<!-- Button (at start) -->
+						<NButton v-if="get().at === 0" @click="store.startSession">
 							<template #icon>
 								<NIcon> <PlayArrowFilled></PlayArrowFilled> </NIcon>
 							</template>
 							Start
 						</NButton>
 
-						<NGradientText :size="24">
-							{{ get().stage }}
-							{{ get().stageAt }}:{{ get().stageDuration }}
-						</NGradientText>
+						<!-- Button (when stopped) -->
+						<NButton v-else-if="!get().running" @click="store.resumeSession">
+							<template #icon>
+								<NIcon> <PlayArrowFilled></PlayArrowFilled> </NIcon>
+							</template>
+							Resume
+						</NButton>
+
+						<!-- Button (when running) -->
+						<NButton v-else-if="get().running" @click="store.pauseSession">
+							<template #icon>
+								<NIcon> <PauseFilled></PauseFilled> </NIcon>
+							</template>
+							Pause
+						</NButton>
+
+						<!-- Counter (only shows on run) -->
+						<NButton
+							:loading="get().running"
+							strong
+							secondary
+							type="primary"
+							v-if="get().at !== 0"
+						>
+							{{ stageDuration() - stageAt() }} left
+						</NButton>
 					</NSpace>
 				</NSpace>
 			</NGridItem>

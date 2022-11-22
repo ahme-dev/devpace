@@ -32,7 +32,7 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 	// current session
 	let current = ref<Session>({
 		running: false,
-		at: 31,
+		at: 0,
 		config: {
 			rounds: 2,
 			focus: 30,
@@ -128,5 +128,26 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 		return s.stages[s.stages.length - 1];
 	};
 
-	return { current, history, getDuration, getStage };
+	// session control
+
+	const startSession = () => {
+		current.value.running = true;
+		setInterval(() => {
+			if (current.value.running) current.value.at += 1;
+		}, 1000);
+	};
+
+	const resumeSession = () => (current.value.running = true);
+
+	const pauseSession = () => (current.value.running = false);
+
+	return {
+		current,
+		history,
+		getDuration,
+		getStage,
+		startSession,
+		resumeSession,
+		pauseSession,
+	};
 });
