@@ -56,7 +56,7 @@
 		<NGrid :cols="3">
 			<NGridItem span="2">
 				<NSpace vertical :size="25">
-					<NText size="large" type="primary">do</NText>
+					<NText size="large" type="primary">current</NText>
 
 					<!-- Sliders -->
 					<NSpace vertical>
