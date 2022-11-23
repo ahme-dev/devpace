@@ -35,12 +35,12 @@
 		duration: store.getDuration(store.current.config),
 	});
 
+	let stage = () => store.getStage(store.current);
 	let stageType = () => store.getStage(store.current).type;
 	let stageAt = () => store.current.at - store.getStage(store.current).start;
 	let stageDuration = () =>
 		store.getStage(store.current).end - store.getStage(store.current).start;
-
-	let stage = () => store.getStage(store.current);
+	let stageAtRev = () => stageDuration() - stageAt();
 
 	const sessionControl = () => {
 		get().at === 0
@@ -116,7 +116,8 @@
 							type="primary"
 							v-if="get().at !== 0"
 						>
-							{{ stageDuration() - stageAt() }} left
+							{{ stageAtRev() }}
+							mins left
 						</NButton>
 					</NSpace>
 				</NSpace>
