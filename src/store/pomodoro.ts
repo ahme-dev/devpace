@@ -4,12 +4,20 @@ import { defineStore } from "pinia";
 // types
 
 interface Session {
-	running: boolean;
-	at: number;
-	stopFunc: () => void;
-	config: SessionConfig;
+	status: "tostart" | "paused" | "inprogress" | "finished";
+	at: {
+		time: number;
+		index: number;
+	};
 	stages: SessionStage[];
 }
+
+interface SessionStage {
+	length: number;
+	type: "focus" | "break" | "rest";
+}
+
+export type ConfigKeys = "rounds" | "focus" | "break" | "rest";
 
 interface SessionConfig {
 	rounds: number;
@@ -18,159 +26,75 @@ interface SessionConfig {
 	rest: number;
 }
 
-interface SessionStage {
-	start: number;
-	end: number;
-	// will have to change
-	type: ConfigKeys;
-}
-
-export type ConfigKeys = "rounds" | "focus" | "break" | "rest";
-
 // data
 
 export const usePomodoroStore = defineStore("pomodoro", () => {
+	// used for session creation
+	// bound to ui
+	let config = ref<SessionConfig>({
+		rounds: 2,
+		focus: 30,
+		break: 6,
+		rest: 15,
+	});
+
 	// current session
 	let current = ref<Session>({
-		running: false,
-		at: 0,
-		stopFunc: () => {},
-		config: {
-			rounds: 2,
-			focus: 30,
-			break: 6,
-			rest: 15,
+		status: "tostart",
+		at: {
+			time: 0,
+			index: 0,
 		},
 		stages: [],
 	});
 
 	// history of sessions
-	let history = ref<Session[]>([
-		{
-			running: false,
-			at: 80,
-			stopFunc: () => {},
-			config: {
-				rounds: 2,
-				focus: 30,
-				break: 5,
-				rest: 15,
-			},
-			stages: [],
-		},
-		{
-			running: false,
-			at: 75,
-			stopFunc: () => {},
-			config: {
-				rounds: 3,
-				focus: 20,
-				break: 5,
-				rest: 10,
-			},
-			stages: [],
-		},
-	]);
+	let history = ref<Session[]>([]);
 
-	// get the overall duration of the session from the config
-	const getDuration = (c: SessionConfig) => {
-		return c.rounds * c.focus + (c.rounds - 1) * c.break + c.rest;
-	};
+	// create a session by replacing current
+	const createSession = () => {
+		// reset current
+		current.value.status = "tostart";
+		current.value.at.index = 0;
+		current.value.at.time = 0;
+		current.value.stages = [];
 
-	// add map of stages for session
-	const mapStages = (s: Session) => {
-		// list of stages
-		let stages = <SessionStage[]>[];
-
-		// get the end value of the last element
-		let getLastEnd = (list: SessionStage[]) =>
-			list.length === 0 ? 0 : list[list.length - 1].end + 1;
-
-		// map all stages into the list
-		for (let i = 0; i < s.config.rounds; i++) {
+		// loop by the number of rounds
+		for (let i = 0; i < config.value.rounds; i++) {
 			// add focus stage
-			stages.push({
-				type: "focus",
-				start: getLastEnd(stages),
-				end: getLastEnd(stages) + s.config.focus - 1,
-			});
+			current.value.stages.push({ type: "focus", length: config.value.focus });
 
 			// if last round, only add rest and skip break
-			if (i + 1 == s.config.rounds) {
-				stages.push({
+			if (i + 1 == config.value.rounds) {
+				current.value.stages.push({
 					type: "rest",
-					start: getLastEnd(stages),
-					end: getLastEnd(stages) + s.config.rest - 1,
+					length: config.value.rest,
 				});
 				continue;
 			}
 
 			// add break stage
-			stages.push({
-				type: "break",
-				start: getLastEnd(stages),
-				end: getLastEnd(stages) + s.config.break - 1,
-			});
+			current.value.stages.push({ type: "break", length: config.value.break });
 		}
-
-		// add stages list to session
-		s.stages = stages;
 	};
 
-	// get the stage at which the session is at
-	const getStage = (s: Session): SessionStage => {
-		// add stage mapping if not found on session
-		if (s.stages.length === 0) mapStages(s);
-
-		// go through each stage
-		for (let stage of s.stages) {
-			// return if at the range for stage
-			if (stage.start <= s.at && s.at <= stage.end) return stage;
+	// get the overall duration of the session
+	const getDuration = () => {
+		let duration = 0;
+		for (let stage of current.value.stages) {
+			duration += stage.length;
+			console.log(duration);
 		}
-
-		// return last stage if couldn't determine
-		return s.stages[s.stages.length - 1];
+		return duration;
 	};
 
 	// session control
 
-	const startSession = () => {
-		current.value.running = true;
-		const interval = setInterval(() => {
-			// if running add value
-			if (current.value.running) current.value.at += 1;
-
-			// if finished, stop session
-			if (current.value.at === getDuration(current.value.config)) stopSession();
-		}, 1000);
-
-		current.value.stopFunc = () => {
-			clearInterval(interval);
-		};
-	};
-
-	const stopSession = () => {
-		// stop the running interval
-		current.value.stopFunc();
-		current.value.running = false;
-		// add to history
-		console.log("At", current.value.at);
-		history.value.push(current.value);
-		// reset position to 0
-		current.value.at = 0;
-	};
-
-	const resumeSession = () => (current.value.running = true);
-
-	const pauseSession = () => (current.value.running = false);
-
 	return {
 		current,
+		config,
 		history,
+		createSession,
 		getDuration,
-		getStage,
-		startSession,
-		resumeSession,
-		pauseSession,
 	};
 });

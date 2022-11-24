@@ -22,33 +22,6 @@
 	import { usePomodoroStore } from "@/store/pomodoro";
 	import PomodoroInfo from "./PomodoroInfo.vue";
 	const store = usePomodoroStore();
-
-	// shortcut for getting data from store
-	let get = () => ({
-		at: store.current.at,
-		running: store.current.running,
-		rounds: store.current.config.rounds,
-
-		focus: store.current.config.focus,
-		break: store.current.config.break,
-		rest: store.current.config.rest,
-		duration: store.getDuration(store.current.config),
-	});
-
-	let stage = () => store.getStage(store.current);
-	let stageType = () => store.getStage(store.current).type;
-	let stageAt = () => store.current.at - store.getStage(store.current).start;
-	let stageDuration = () =>
-		store.getStage(store.current).end - store.getStage(store.current).start;
-	let stageAtRev = () => stageDuration() - stageAt();
-
-	const sessionControl = () => {
-		get().at === 0
-			? store.startSession()
-			: get().running
-			? store.pauseSession()
-			: store.resumeSession();
-	};
 </script>
 
 <template>
@@ -62,36 +35,32 @@
 					<!-- Sliders -->
 					<NSpace vertical>
 						<PomodoroItem
-							name="Rounds"
 							bind="rounds"
 							:min="1"
 							:max="4"
 							:step="1"
-							:disable="get().at > 0"
+							:disable="store.current.status !== 'tostart'"
 						/>
 						<PomodoroItem
-							name="Focus"
 							bind="focus"
 							:min="20"
 							:max="60"
 							:step="10"
-							:disable="get().at > 0"
+							:disable="store.current.status !== 'tostart'"
 						/>
 						<PomodoroItem
-							name="Break"
 							bind="break"
 							:min="3"
 							:max="15"
 							:step="3"
-							:disable="get().at > 0"
+							:disable="store.current.status !== 'tostart'"
 						/>
 						<PomodoroItem
-							name="Rest"
 							bind="rest"
 							:min="10"
 							:max="20"
 							:step="5"
-							:disable="get().at > 0"
+							:disable="store.current.status !== 'tostart'"
 						/>
 					</NSpace>
 
@@ -100,23 +69,25 @@
 
 					<!-- Buttons and Counter -->
 					<NSpace align="center">
-						<NButton circle @click="sessionControl()">
+						<!-- Button -->
+						<NButton circle @click="">
 							<template #icon>
 								<NIcon>
-									<PauseFilled v-if="get().running" />
+									<PauseFilled v-if="store.current.status === 'inprogress'" />
 									<PlayArrowFilled v-else />
 								</NIcon>
 							</template>
 						</NButton>
 
+						<!-- Counter -->
 						<NButton
-							:loading="get().running"
+							v-if="store.current.status !== 'tostart'"
+							:loading="store.current.status === 'inprogress'"
 							strong
 							secondary
 							type="primary"
-							v-if="get().at !== 0"
 						>
-							{{ stageAtRev() }}
+							{{ store.current.at.time }}
 							mins left
 						</NButton>
 					</NSpace>

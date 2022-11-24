@@ -6,7 +6,6 @@
 	const store = usePomodoroStore();
 
 	const props = defineProps<{
-		name: string;
 		bind: ConfigKeys;
 		min: number;
 		max: number;
@@ -19,7 +18,7 @@
 	<NGrid :cols="5" :xGap="16" style="align-items: center">
 		<!-- Text -->
 		<NGridItem style="text-align: end">
-			<NText> {{ props.name }}</NText>
+			<NText> {{ props.bind }}</NText>
 		</NGridItem>
 
 		<!-- Input -->
@@ -30,7 +29,7 @@
 				:min="props.min"
 				:max="props.max"
 				:step="props.step"
-				v-model:value="store.current.config[props.bind]"
+				v-model:value="store.config[props.bind]"
 			/>
 		</NGridItem>
 
@@ -42,7 +41,7 @@
 				:step="props.step"
 				:disabled="props.disable"
 				:tooltip="false"
-				v-model:value="store.current.config[props.bind]"
+				v-model:value="store.config[props.bind]"
 			></NSlider>
 		</NGridItem>
 	</NGrid>
