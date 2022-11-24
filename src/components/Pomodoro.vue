@@ -6,14 +6,8 @@
 		NSpace,
 		NGrid,
 		NGridItem,
-		NTimeline,
-		NTimelineItem,
 		NButton,
 		NIcon,
-		NStatistic,
-		NNumberAnimation,
-		NCountdown,
-		NGradientText,
 	} from "naive-ui";
 
 	import PomodoroItem from "./PomodoroItem.vue";
