@@ -4,10 +4,6 @@
 	import { computed } from "vue";
 	import { usePomodoroStore } from "@/store/pomodoro";
 	const store = usePomodoroStore();
-
-	const storeStageType = computed(
-		() => store.current.stages[store.current.at.index].type
-	);
 </script>
 
 <template>
@@ -26,14 +22,18 @@
 
 	<!-- Session Stage Highlighter (only shows on run) -->
 	<NSpace v-else vertical>
-		<NText>Session in progress. In {{ storeStageType }} stage.</NText>
+		<NText>
+			Session in a
+			{{ store.current.stages[store.current.at.index].type }} stage,
+			{{ store.current.at.time === 0 ? "waiting" : store.current.status }}.
+		</NText>
 		<NSpace align="center">
 			<NButton
-				v-for="stage in store.current.stages"
+				v-for="(stage, id) in store.current.stages"
 				size="small"
 				strong
 				secondary
-				:type="stage.type == storeStageType ? 'primary' : 'default'"
+				:type="id == store.current.at.index ? 'primary' : 'default'"
 			>
 				{{ stage.type }}
 			</NButton>
