@@ -72,9 +72,9 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 			step: 3,
 		},
 		rest: {
-			at: 5,
+			at: 10,
 			min: 10,
-			max: 20,
+			max: 25,
 			step: 5,
 		},
 	});
