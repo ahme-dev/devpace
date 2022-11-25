@@ -44,34 +44,10 @@
 
 					<!-- Sliders -->
 					<NSpace vertical>
-						<PomodoroItem
-							bind="rounds"
-							:min="1"
-							:max="4"
-							:step="1"
-							:disable="store.current.status !== 'ready'"
-						/>
-						<PomodoroItem
-							bind="focus"
-							:min="20"
-							:max="60"
-							:step="10"
-							:disable="store.current.status !== 'ready'"
-						/>
-						<PomodoroItem
-							bind="break"
-							:min="3"
-							:max="15"
-							:step="3"
-							:disable="store.current.status !== 'ready'"
-						/>
-						<PomodoroItem
-							bind="rest"
-							:min="10"
-							:max="20"
-							:step="5"
-							:disable="store.current.status !== 'ready'"
-						/>
+						<PomodoroItem bind="rounds" />
+						<PomodoroItem bind="focus" />
+						<PomodoroItem bind="break" />
+						<PomodoroItem bind="rest" />
 					</NSpace>
 
 					<!-- Info -->

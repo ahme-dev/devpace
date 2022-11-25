@@ -14,13 +14,13 @@
 	<!-- Session Specifier -->
 	<NText v-if="store.current.status === 'ready'">
 		Your session will be made up of
-		<b>{{ store.config.rounds }}</b>
+		<b>{{ store.config.rounds.at }}</b>
 		rounds of
-		<b>{{ store.config.focus }}</b>
+		<b>{{ store.config.focus.at }}</b>
 		minutes focus periods, with
-		<b>{{ store.config.break }}</b>
+		<b>{{ store.config.break.at }}</b>
 		minute break(s) in-between, and a final rest period of
-		<b>{{ store.config.rest }}</b>
+		<b>{{ store.config.rest.at }}</b>
 		minutes.
 	</NText>
 

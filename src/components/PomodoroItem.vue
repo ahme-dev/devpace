@@ -5,13 +5,7 @@
 	import { usePomodoroStore } from "@/store/pomodoro";
 	const store = usePomodoroStore();
 
-	const props = defineProps<{
-		bind: ConfigKeys;
-		min: number;
-		max: number;
-		step: number;
-		disable: boolean;
-	}>();
+	const props = defineProps<{ bind: ConfigKeys }>();
 </script>
 
 <template>
@@ -24,24 +18,24 @@
 		<!-- Input -->
 		<NGridItem>
 			<NInputNumber
+				:disabled="store.current.status !== 'ready'"
 				:showButton="false"
-				:disabled="props.disable"
-				:min="props.min"
-				:max="props.max"
-				:step="props.step"
-				v-model:value="store.config[props.bind]"
+				:min="store.config[props.bind].min"
+				:max="store.config[props.bind].max"
+				:step="store.config[props.bind].step"
+				v-model:value="store.config[props.bind].at"
 			/>
 		</NGridItem>
 
 		<!-- Slider -->
 		<NGridItem span="3">
 			<NSlider
-				:min="props.min"
-				:max="props.max"
-				:step="props.step"
-				:disabled="props.disable"
+				:disabled="store.current.status !== 'ready'"
 				:tooltip="false"
-				v-model:value="store.config[props.bind]"
+				:min="store.config[props.bind].min"
+				:max="store.config[props.bind].max"
+				:step="store.config[props.bind].step"
+				v-model:value="store.config[props.bind].at"
 			></NSlider>
 		</NGridItem>
 	</NGrid>

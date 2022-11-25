@@ -6,10 +6,30 @@ import { defineStore } from "pinia";
 export type ConfigKeys = "rounds" | "focus" | "break" | "rest";
 
 interface SessionConfig {
-	rounds: number;
-	focus: number;
-	break: number;
-	rest: number;
+	rounds: {
+		at: number;
+		min: number;
+		max: number;
+		step: number;
+	};
+	focus: {
+		at: number;
+		min: number;
+		max: number;
+		step: number;
+	};
+	break: {
+		at: number;
+		min: number;
+		max: number;
+		step: number;
+	};
+	rest: {
+		at: number;
+		min: number;
+		max: number;
+		step: number;
+	};
 }
 
 interface Session {
@@ -31,12 +51,32 @@ interface SessionStage {
 
 export const usePomodoroStore = defineStore("pomodoro", () => {
 	// used for session creation
-	// bound to ui
+	// at field is bound to ui
 	let config = ref<SessionConfig>({
-		rounds: 2,
-		focus: 30,
-		break: 6,
-		rest: 15,
+		rounds: {
+			at: 2,
+			min: 1,
+			max: 4,
+			step: 1,
+		},
+		focus: {
+			at: 25,
+			min: 20,
+			max: 60,
+			step: 5,
+		},
+		break: {
+			at: 3,
+			min: 3,
+			max: 15,
+			step: 3,
+		},
+		rest: {
+			at: 5,
+			min: 10,
+			max: 20,
+			step: 5,
+		},
 	});
 
 	// current session
@@ -66,21 +106,27 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 	// made by replacing current
 	const createSession = () => {
 		// loop by the number of rounds
-		for (let i = 0; i < config.value.rounds; i++) {
+		for (let i = 0; i < config.value.rounds.at; i++) {
 			// add focus stage
-			current.value.stages.push({ type: "focus", length: config.value.focus });
+			current.value.stages.push({
+				type: "focus",
+				length: config.value.focus.at,
+			});
 
 			// if last round, only add rest and skip break
-			if (i + 1 == config.value.rounds) {
+			if (i + 1 == config.value.rounds.at) {
 				current.value.stages.push({
 					type: "rest",
-					length: config.value.rest,
+					length: config.value.rest.at,
 				});
 				continue;
 			}
 
 			// add break stage
-			current.value.stages.push({ type: "break", length: config.value.break });
+			current.value.stages.push({
+				type: "break",
+				length: config.value.break.at,
+			});
 		}
 
 		// set duration and start session
