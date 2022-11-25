@@ -8,7 +8,10 @@
 <template>
 	<NSpace justify="center" style="overflow: auto">
 		<NTimeline>
-			<NTimelineItem v-for="s in store.history" :content="s.at.toString()" />
+			<NTimelineItem
+				v-for="s in store.history"
+				:content="s.duration.toString()"
+			/>
 		</NTimeline>
 	</NSpace>
 </template>

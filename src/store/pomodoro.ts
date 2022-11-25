@@ -3,6 +3,8 @@ import { defineStore } from "pinia";
 
 // types
 
+export type ConfigKeys = "rounds" | "focus" | "break" | "rest";
+
 interface SessionConfig {
 	rounds: number;
 	focus: number;
@@ -17,14 +19,13 @@ interface Session {
 		index: number;
 	};
 	stages: SessionStage[];
+	duration: number;
 }
 
 interface SessionStage {
 	length: number;
 	type: "focus" | "break" | "rest";
 }
-
-export type ConfigKeys = "rounds" | "focus" | "break" | "rest";
 
 // data
 
@@ -46,19 +47,19 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 			index: 0,
 		},
 		stages: [],
+		duration: 0,
 	});
 
 	// history of sessions
 	let history = ref<Session[]>([]);
 
-	// get the overall duration of the session
-	const getDuration = () => {
+	// set overall duration of the session
+	const setDuration = () => {
 		let duration = 0;
 		for (let stage of current.value.stages) {
 			duration += stage.length;
-			console.log(duration);
 		}
-		return duration;
+		current.value.duration = duration;
 	};
 
 	// session creation
@@ -82,6 +83,8 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 			current.value.stages.push({ type: "break", length: config.value.break });
 		}
 
+		// set duration and start session
+		setDuration();
 		startsession();
 	};
 
@@ -136,7 +139,6 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 		current,
 		config,
 		history,
-		getDuration,
 
 		createSession,
 		resumeSession,
