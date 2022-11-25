@@ -19,7 +19,6 @@
 
 	// do an action on the session based on status
 	const sessionAction = () => {
-		console.log("running session");
 		switch (store.current.status) {
 			case "running":
 				store.pauseSession();

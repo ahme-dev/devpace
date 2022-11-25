@@ -9,8 +9,11 @@
 	<NSpace justify="center" style="overflow: auto">
 		<NTimeline>
 			<NTimelineItem
+				type="success"
 				v-for="s in store.history"
-				:content="s.duration.toString()"
+				:title="`${s.duration.toString()} mins`"
+				:content="`${s.stages.length / 2} round(s)`"
+				:time="s.date"
 			/>
 		</NTimeline>
 	</NSpace>

@@ -40,6 +40,7 @@ interface Session {
 	};
 	stages: SessionStage[];
 	duration: number;
+	date: string;
 }
 
 interface SessionStage {
@@ -88,18 +89,19 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 		},
 		stages: [],
 		duration: 0,
+		date: "",
 	});
 
 	// history of sessions
 	let history = ref<Session[]>([]);
 
 	// set overall duration of the session
-	const setDuration = () => {
+	const getDuration = () => {
 		let duration = 0;
 		for (let stage of current.value.stages) {
 			duration += stage.length;
 		}
-		current.value.duration = duration;
+		return duration;
 	};
 
 	// session creation
@@ -129,8 +131,6 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 			});
 		}
 
-		// set duration and start session
-		setDuration();
 		startsession();
 	};
 
@@ -146,13 +146,11 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 				// if last stage then end session
 				if (current.value.at.index + 1 === current.value.stages.length) {
 					endSession(interval);
-					return;
 				} else {
 					// go to next stage and reset timer;
 					current.value.at.index += 1;
 					current.value.at.time = 0;
 					pauseSession();
-					return;
 				}
 			}
 
@@ -167,15 +165,20 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 		// stop interval
 		clearInterval(interval);
 
-		// set status to finished and add into history
+		// set status, date, and duration
+		current.value.duration = getDuration();
 		current.value.status = "finished";
-		history.value.push(current.value);
+		current.value.date = "2022";
+		// put into history
+		history.value.push({ ...current.value });
 
 		// reset current
 		current.value.status = "ready";
 		current.value.at.index = 0;
 		current.value.at.time = 0;
 		current.value.stages = [];
+		current.value.duration = 0;
+		current.value.date = "";
 	};
 
 	const resumeSession = () => (current.value.status = "running");
