@@ -16,6 +16,22 @@
 	import { usePomodoroStore } from "@/store/pomodoro";
 	import PomodoroInfo from "./PomodoroInfo.vue";
 	const store = usePomodoroStore();
+
+	// do an action on the session based on status
+	const sessionAction = () => {
+		console.log("running session");
+		switch (store.current.status) {
+			case "running":
+				store.pauseSession();
+				break;
+			case "paused":
+				store.resumeSession();
+				break;
+			case "ready":
+				store.createSession();
+				break;
+		}
+	};
 </script>
 
 <template>
@@ -33,28 +49,28 @@
 							:min="1"
 							:max="4"
 							:step="1"
-							:disable="store.current.status !== 'tostart'"
+							:disable="store.current.status !== 'ready'"
 						/>
 						<PomodoroItem
 							bind="focus"
 							:min="20"
 							:max="60"
 							:step="10"
-							:disable="store.current.status !== 'tostart'"
+							:disable="store.current.status !== 'ready'"
 						/>
 						<PomodoroItem
 							bind="break"
 							:min="3"
 							:max="15"
 							:step="3"
-							:disable="store.current.status !== 'tostart'"
+							:disable="store.current.status !== 'ready'"
 						/>
 						<PomodoroItem
 							bind="rest"
 							:min="10"
 							:max="20"
 							:step="5"
-							:disable="store.current.status !== 'tostart'"
+							:disable="store.current.status !== 'ready'"
 						/>
 					</NSpace>
 
@@ -64,10 +80,10 @@
 					<!-- Buttons and Counter -->
 					<NSpace align="center">
 						<!-- Button -->
-						<NButton circle @click="">
+						<NButton circle @click="sessionAction">
 							<template #icon>
 								<NIcon>
-									<PauseFilled v-if="store.current.status === 'inprogress'" />
+									<PauseFilled v-if="store.current.status === 'running'" />
 									<PlayArrowFilled v-else />
 								</NIcon>
 							</template>
@@ -75,8 +91,8 @@
 
 						<!-- Counter -->
 						<NButton
-							v-if="store.current.status !== 'tostart'"
-							:loading="store.current.status === 'inprogress'"
+							v-if="store.current.status !== 'ready'"
+							:loading="store.current.status === 'running'"
 							strong
 							secondary
 							type="primary"

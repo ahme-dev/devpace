@@ -12,7 +12,7 @@
 
 <template>
 	<!-- Session Specifier -->
-	<NText v-if="store.current.status === 'tostart'">
+	<NText v-if="store.current.status === 'ready'">
 		Your session will be made up of
 		<b>{{ store.config.rounds }}</b>
 		rounds of

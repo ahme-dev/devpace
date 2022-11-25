@@ -3,8 +3,15 @@ import { defineStore } from "pinia";
 
 // types
 
+interface SessionConfig {
+	rounds: number;
+	focus: number;
+	break: number;
+	rest: number;
+}
+
 interface Session {
-	status: "tostart" | "paused" | "inprogress" | "finished";
+	status: "ready" | "paused" | "running" | "finished";
 	at: {
 		time: number;
 		index: number;
@@ -18,13 +25,6 @@ interface SessionStage {
 }
 
 export type ConfigKeys = "rounds" | "focus" | "break" | "rest";
-
-interface SessionConfig {
-	rounds: number;
-	focus: number;
-	break: number;
-	rest: number;
-}
 
 // data
 
@@ -40,7 +40,7 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 
 	// current session
 	let current = ref<Session>({
-		status: "tostart",
+		status: "ready",
 		at: {
 			time: 0,
 			index: 0,
@@ -51,14 +51,19 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 	// history of sessions
 	let history = ref<Session[]>([]);
 
-	// create a session by replacing current
-	const createSession = () => {
-		// reset current
-		current.value.status = "tostart";
-		current.value.at.index = 0;
-		current.value.at.time = 0;
-		current.value.stages = [];
+	// get the overall duration of the session
+	const getDuration = () => {
+		let duration = 0;
+		for (let stage of current.value.stages) {
+			duration += stage.length;
+			console.log(duration);
+		}
+		return duration;
+	};
 
+	// session creation
+	// made by replacing current
+	const createSession = () => {
 		// loop by the number of rounds
 		for (let i = 0; i < config.value.rounds; i++) {
 			// add focus stage
@@ -76,25 +81,65 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 			// add break stage
 			current.value.stages.push({ type: "break", length: config.value.break });
 		}
-	};
 
-	// get the overall duration of the session
-	const getDuration = () => {
-		let duration = 0;
-		for (let stage of current.value.stages) {
-			duration += stage.length;
-			console.log(duration);
-		}
-		return duration;
+		startsession();
 	};
 
 	// session control
+
+	const startsession = () => {
+		const interval = setInterval(() => {
+			// if reached the duration
+			if (
+				current.value.stages[current.value.at.index].length ===
+				current.value.at.time
+			) {
+				// if last stage then end session
+				if (current.value.at.index + 1 === current.value.stages.length) {
+					endSession(interval);
+					return;
+				} else {
+					// go to next stage and reset timer;
+					current.value.at.index += 1;
+					current.value.at.time = 0;
+					pauseSession();
+					return;
+				}
+			}
+
+			// add to timer if running
+			if (current.value.status === "running") current.value.at.time += 1;
+		}, 1000);
+
+		resumeSession();
+	};
+
+	const endSession = (interval: number) => {
+		// stop interval
+		clearInterval(interval);
+
+		// set status to finished and add into history
+		current.value.status = "finished";
+		history.value.push(current.value);
+
+		// reset current
+		current.value.status = "ready";
+		current.value.at.index = 0;
+		current.value.at.time = 0;
+		current.value.stages = [];
+	};
+
+	const resumeSession = () => (current.value.status = "running");
+	const pauseSession = () => (current.value.status = "paused");
 
 	return {
 		current,
 		config,
 		history,
-		createSession,
 		getDuration,
+
+		createSession,
+		resumeSession,
+		pauseSession,
 	};
 });
