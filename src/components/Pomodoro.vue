@@ -1,14 +1,6 @@
 <script setup lang="ts">
 	import { PlayArrowFilled, PauseFilled } from "@vicons/material";
-	import {
-		NCard,
-		NText,
-		NSpace,
-		NGrid,
-		NGridItem,
-		NButton,
-		NIcon,
-	} from "naive-ui";
+	import { NCard, NText, NButton, NIcon } from "naive-ui";
 
 	import PomodoroItem from "./PomodoroItem.vue";
 	import PomodoroTimeline from "./PomodoroTimeline.vue";
@@ -35,54 +27,58 @@
 
 <template>
 	<NCard>
-		<NGrid :cols="3">
-			<NGridItem span="2">
-				<NSpace vertical :size="25">
-					<!-- Title -->
-					<NText size="large" type="primary">current</NText>
+		<div style="display: grid; grid-template-columns: repeat(3, 1fr)">
+			<!-- Pomodoro -->
+			<div
+				style="
+					grid-column: 1/3;
+					display: flex;
+					flex-direction: column;
+					gap: 2rem;
+				"
+			>
+				<!-- Title -->
+				<NText size="large" type="primary">current</NText>
 
-					<!-- Sliders -->
-					<NSpace vertical>
-						<PomodoroItem bind="rounds" />
-						<PomodoroItem bind="focus" />
-						<PomodoroItem bind="break" />
-						<PomodoroItem bind="rest" />
-					</NSpace>
+				<!-- Sliders -->
+				<div style="display: flex; flex-direction: column; gap: 1rem">
+					<PomodoroItem bind="rounds" />
+					<PomodoroItem bind="focus" />
+					<PomodoroItem bind="break" />
+					<PomodoroItem bind="rest" />
+				</div>
 
-					<!-- Info -->
-					<PomodoroInfo />
+				<!-- Info -->
+				<PomodoroInfo />
 
-					<!-- Buttons and Counter -->
-					<NSpace align="center">
-						<!-- Button -->
-						<NButton circle @click="sessionAction">
-							<template #icon>
-								<NIcon>
-									<PauseFilled v-if="store.current.status === 'running'" />
-									<PlayArrowFilled v-else />
-								</NIcon>
-							</template>
-						</NButton>
+				<!-- Buttons and Counter -->
+				<div style="display: flex; gap: 1rem">
+					<!-- Button -->
+					<NButton circle @click="sessionAction">
+						<template #icon>
+							<NIcon>
+								<PauseFilled v-if="store.current.status === 'running'" />
+								<PlayArrowFilled v-else />
+							</NIcon>
+						</template>
+					</NButton>
 
-						<!-- Counter -->
-						<NButton
-							v-if="store.current.status !== 'ready'"
-							:loading="store.current.status === 'running'"
-							strong
-							secondary
-							type="primary"
-						>
-							{{ store.current.at.time }}
-							mins left
-						</NButton>
-					</NSpace>
-				</NSpace>
-			</NGridItem>
+					<!-- Counter -->
+					<NButton
+						v-if="store.current.status !== 'ready'"
+						:loading="store.current.status === 'running'"
+						strong
+						secondary
+						type="primary"
+					>
+						{{ store.current.at.time }}
+						mins left
+					</NButton>
+				</div>
+			</div>
 
 			<!-- Timeline -->
-			<NGridItem>
-				<PomodoroTimeline></PomodoroTimeline>
-			</NGridItem>
-		</NGrid>
+			<PomodoroTimeline></PomodoroTimeline>
+		</div>
 	</NCard>
 </template>

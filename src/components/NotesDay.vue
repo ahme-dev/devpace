@@ -1,6 +1,5 @@
 <script setup lang="ts">
-	import { PlusFilled } from "@vicons/material";
-	import { NList, NListItem, NButton, NText, NInput, NIcon } from "naive-ui";
+	import { NList, NListItem, NText, NInput } from "naive-ui";
 	import type { Days } from "@/store/notes";
 
 	import { useNotesStore } from "@/store/notes";
@@ -15,20 +14,22 @@
 
 <template>
 	<!-- when there's data -->
-	<NList style="max-height: 70vh; overflow-y: scroll" v-if="day.notes.length">
-		<NListItem v-for="(item, id) in day.notes">
-			<NInput
-				type="textarea"
-				:autosize="{
-					maxRows: 5,
-				}"
-				@blur="store.cleanNotes(day)"
-				show-count
-				placeholder="write something"
-				v-model:value="day.notes[id]"
-			></NInput>
-		</NListItem>
-	</NList>
+	<div v-if="day.notes.length" style="max-height: 55vh; overflow-y: scroll">
+		<NList>
+			<NListItem v-for="(item, id) in day.notes">
+				<NInput
+					type="textarea"
+					:autosize="{
+						maxRows: 5,
+					}"
+					@blur="store.cleanNotes(day)"
+					show-count
+					placeholder="write something"
+					v-model:value="day.notes[id]"
+				></NInput>
+			</NListItem>
+		</NList>
+	</div>
 
 	<!-- no data -->
 	<NList v-else>
@@ -36,13 +37,4 @@
 			<NText> Nothing to show! </NText>
 		</NListItem>
 	</NList>
-
-	<!-- add button -->
-	<NButton circle @click="store.addNote(day)" style="margin-top: 1rem">
-		<template #icon>
-			<NIcon>
-				<PlusFilled></PlusFilled>
-			</NIcon>
-		</template>
-	</NButton>
 </template>

@@ -13,17 +13,20 @@
 
 <template>
 	<NConfigProvider :theme="darkTheme">
-		<NGrid :cols="2" :xGap="16" style="padding: 1rem">
+		<div
+			style="
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				padding: 1rem;
+				gap: 1rem;
+			"
+		>
 			<!-- Todo - Left -->
-			<NGridItem>
-				<Notes></Notes>
-			</NGridItem>
+			<Notes style="height: fit-content"></Notes>
 
 			<!-- Pomodoro - Right -->
-			<NGridItem>
-				<Pomodoro></Pomodoro>
-			</NGridItem>
-		</NGrid>
+			<Pomodoro style="height: fit-content"></Pomodoro>
+		</div>
 
 		<!-- style to body -->
 		<NGlobalStyle></NGlobalStyle>

@@ -9,34 +9,36 @@
 </script>
 
 <template>
-	<NGrid :cols="5" :xGap="16" style="align-items: center">
+	<div
+		style="
+			display: grid;
+			grid-template-columns: repeat(5, 1fr);
+			align-items: center;
+			gap: 1rem;
+		"
+	>
 		<!-- Text -->
-		<NGridItem style="text-align: end">
-			<NText> {{ props.bind }}</NText>
-		</NGridItem>
+		<NText style="justify-self: flex-end"> {{ props.bind }}</NText>
 
 		<!-- Input -->
-		<NGridItem>
-			<NInputNumber
-				:disabled="store.current.status !== 'ready'"
-				:showButton="false"
-				:min="store.config[props.bind].min"
-				:max="store.config[props.bind].max"
-				:step="store.config[props.bind].step"
-				v-model:value="store.config[props.bind].at"
-			/>
-		</NGridItem>
+		<NInputNumber
+			:disabled="store.current.status !== 'ready'"
+			:showButton="false"
+			:min="store.config[props.bind].min"
+			:max="store.config[props.bind].max"
+			:step="store.config[props.bind].step"
+			v-model:value="store.config[props.bind].at"
+		/>
 
 		<!-- Slider -->
-		<NGridItem span="3">
-			<NSlider
-				:disabled="store.current.status !== 'ready'"
-				:tooltip="false"
-				:min="store.config[props.bind].min"
-				:max="store.config[props.bind].max"
-				:step="store.config[props.bind].step"
-				v-model:value="store.config[props.bind].at"
-			></NSlider>
-		</NGridItem>
-	</NGrid>
+		<NSlider
+			style="grid-column: 3/6"
+			:disabled="store.current.status !== 'ready'"
+			:tooltip="false"
+			:min="store.config[props.bind].min"
+			:max="store.config[props.bind].max"
+			:step="store.config[props.bind].step"
+			v-model:value="store.config[props.bind].at"
+		></NSlider>
+	</div>
 </template>

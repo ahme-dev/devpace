@@ -1,5 +1,6 @@
 <script setup lang="ts">
-	import { NCard, NTabs, NTabPane } from "naive-ui";
+	import { PlusFilled } from "@vicons/material";
+	import { NCard, NTabs, NTabPane, NButton, NIcon } from "naive-ui";
 	import NotesDay from "./NotesDay.vue";
 
 	import { useNotesStore } from "@/store/notes";
@@ -15,7 +16,16 @@
 			defaultValue="today"
 		>
 			<NTabPane v-for="day in store.days" :name="day.name" :tab="day.name">
+				<!-- list of notes -->
 				<NotesDay :dayName="day.name"></NotesDay>
+				<!-- add button -->
+				<NButton circle @click="store.addNote(day)" style="margin-top: 2rem">
+					<template #icon>
+						<NIcon>
+							<PlusFilled></PlusFilled>
+						</NIcon>
+					</template>
+				</NButton>
 			</NTabPane>
 		</NTabs>
 	</NCard>
