@@ -24,9 +24,6 @@
 		<NInputNumber
 			:disabled="store.current.status !== 'ready'"
 			:showButton="false"
-			:min="store.config[props.bind].min"
-			:max="store.config[props.bind].max"
-			:step="store.config[props.bind].step"
 			v-model:value="store.config[props.bind].at"
 		/>
 
