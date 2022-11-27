@@ -1,7 +1,6 @@
 <script setup lang="ts">
 	import { NText, NSpace, NButton } from "naive-ui";
 
-	import { computed } from "vue";
 	import { usePomodoroStore } from "@/store/pomodoro";
 	const store = usePomodoroStore();
 </script>

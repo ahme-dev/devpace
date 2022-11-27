@@ -6,10 +6,18 @@
 </script>
 
 <template>
-	<div style="">
-		<NTimeline>
+	<div style="display: flex; align-items: flex-end; justify-content: flex-end">
+		<NTimeline
+			style="display: flex; flex-direction: column; align-items: center"
+		>
+			<NTimelineItem
+				v-if="store.history.length === 0"
+				title="No sessions"
+				time="No previous sessions done"
+			/>
 			<NTimelineItem
 				type="success"
+				v-else
 				v-for="s in store.history"
 				:title="`${s.duration.toString()} mins`"
 				:content="`${s.stages.length / 2} round(s)`"
