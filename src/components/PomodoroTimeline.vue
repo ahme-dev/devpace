@@ -7,14 +7,13 @@
 
 <template>
 	<div style="display: flex; align-items: flex-end; justify-content: flex-end">
-		<NTimeline
-			style="display: flex; flex-direction: column; align-items: center"
-		>
+		<NTimeline style="display: flex; flex-direction: column">
 			<NTimelineItem
 				v-if="store.history.length === 0"
 				title="No sessions"
 				time="No previous sessions done"
 			/>
+
 			<NTimelineItem
 				type="success"
 				v-else

@@ -14,7 +14,7 @@
 
 <template>
 	<!-- when there's data -->
-	<div v-if="day.notes.length" style="max-height: 55vh; overflow-y: scroll">
+	<div v-if="day.notes.length" style="max-height: 50vh; overflow-y: scroll">
 		<NList>
 			<NListItem v-for="(item, id) in day.notes">
 				<NInput
