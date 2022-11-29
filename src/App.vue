@@ -7,16 +7,7 @@
 
 <template>
 	<NConfigProvider :theme="darkTheme">
-		<div
-			style="
-				min-height: 100vh;
-				min-width: 100vw;
-				display: grid;
-				grid-template-columns: repeat(2, 1fr);
-				padding: 1rem;
-				gap: 1rem;
-			"
-		>
+		<div class="app">
 			<Notes style="height: fit-content" />
 
 			<Pomodoro style="height: fit-content" />
@@ -28,3 +19,25 @@
 		<NGlobalStyle></NGlobalStyle>
 	</NConfigProvider>
 </template>
+
+<style>
+	.app {
+		min-height: 100vh;
+		min-width: 100vw;
+
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+
+		padding: 1rem;
+		gap: 1rem;
+	}
+
+	@media screen and (max-width: 600px) {
+		.app {
+			grid-template-columns: repeat(1, 1fr);
+
+			padding: 0.5rem;
+			gap: 0.5rem;
+		}
+	}
+</style>

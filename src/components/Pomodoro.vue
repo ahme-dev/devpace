@@ -27,10 +27,8 @@
 
 <template>
 	<NCard>
-		<div
-			style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem"
-		>
-			<!-- Pomodoro -->
+		<div class="pomodoro">
+			<!-- Session -->
 			<div
 				style="
 					grid-column: 1/3;
@@ -84,3 +82,17 @@
 		</div>
 	</NCard>
 </template>
+
+<style>
+	.pomodoro {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 2rem;
+	}
+
+	@media screen and (max-width: 600px) {
+		.pomodoro {
+			grid-template-columns: repeat(1, 1fr);
+		}
+	}
+</style>
