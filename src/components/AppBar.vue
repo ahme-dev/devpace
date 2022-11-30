@@ -1,19 +1,17 @@
 <script lang="ts" setup>
-	import { NButton, NIcon } from "naive-ui";
+	import { NButton, NGradientText, NIcon } from "naive-ui";
 	import { ArrowCircleRightRound, AccessibilityFilled } from "@vicons/material";
 </script>
 
 <template>
-	<div style="display: flex; flex-direction: column; gap: 1rem">
+	<div style="display: flex; flex-direction: column">
 		<!-- top -->
 		<div>Take your time, you'll make something great.</div>
 
 		<!-- bottom -->
 		<div style="display: flex; gap: 1rem; align-items: center">
 			<!-- logo -->
-			<NButton round>
-				<p style="font-size: 1.3rem">devpace</p>
-			</NButton>
+			<NGradientText :size="28">devpace</NGradientText>
 
 			<!-- options -->
 			<NButton circle>
