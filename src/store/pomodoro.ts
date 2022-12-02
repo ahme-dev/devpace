@@ -1,59 +1,12 @@
-import { ref, renderSlot } from "vue";
+import { ref } from "vue";
 import { defineStore } from "pinia";
 
-// types
-
-export type ConfigKeys = "rounds" | "focus" | "break" | "rest";
-
-interface SessionConfig {
-	rounds: {
-		at: number;
-		min: number;
-		max: number;
-		step: number;
-	};
-	focus: {
-		at: number;
-		min: number;
-		max: number;
-		step: number;
-	};
-	break: {
-		at: number;
-		min: number;
-		max: number;
-		step: number;
-	};
-	rest: {
-		at: number;
-		min: number;
-		max: number;
-		step: number;
-	};
-}
-
-interface Session {
-	status: "ready" | "paused" | "running" | "finished";
-	at: {
-		time: number;
-		index: number;
-	};
-	stages: SessionStage[];
-	duration: number;
-	date: string;
-}
-
-interface SessionStage {
-	length: number;
-	type: "focus" | "break" | "rest";
-}
-
-// data
+import type { Config, Session } from "./pomodoroTypes";
 
 export const usePomodoroStore = defineStore("pomodoro", () => {
 	// used for session creation
 	// at field is bound to ui
-	let config = ref<SessionConfig>({
+	let config = ref<Config>({
 		rounds: {
 			at: 2,
 			min: 1,

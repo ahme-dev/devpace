@@ -1,6 +1,6 @@
 <script setup lang="ts">
 	import { NText, NSlider, NInputNumber, NGrid, NGridItem } from "naive-ui";
-	import type { ConfigKeys } from "../store/pomodoro";
+	import type { ConfigKeys } from "../store/pomodoroTypes";
 
 	import { usePomodoroStore } from "@/store/pomodoro";
 	const store = usePomodoroStore();
