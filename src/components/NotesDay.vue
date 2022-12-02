@@ -14,7 +14,10 @@
 
 <template>
 	<!-- when there's data -->
-	<NScrollbar v-if="day.notes.length" style="max-height: 50vh">
+	<NScrollbar
+		v-if="day.notes.length"
+		style="max-height: 50vh; padding-right: 1rem"
+	>
 		<NList>
 			<NListItem v-for="(item, id) in day.notes">
 				<NInput
