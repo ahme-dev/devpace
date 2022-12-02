@@ -71,7 +71,10 @@
 						secondary
 						type="primary"
 					>
-						{{ store.current.at.time }}
+						{{
+							store.current.stages[store.current.at.index].length -
+							store.current.at.time
+						}}
 						mins left
 					</NButton>
 				</div>
