@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import { NList, NListItem, NText, NInput } from "naive-ui";
+	import { NList, NListItem, NText, NInput, NScrollbar } from "naive-ui";
 	import type { Days } from "@/store/notes";
 
 	import { useNotesStore } from "@/store/notes";
@@ -14,7 +14,7 @@
 
 <template>
 	<!-- when there's data -->
-	<div v-if="day.notes.length" style="max-height: 50vh; overflow-y: scroll">
+	<NScrollbar v-if="day.notes.length" style="max-height: 50vh">
 		<NList>
 			<NListItem v-for="(item, id) in day.notes">
 				<NInput
@@ -29,7 +29,7 @@
 				></NInput>
 			</NListItem>
 		</NList>
-	</div>
+	</NScrollbar>
 
 	<!-- no data -->
 	<NList v-else>
