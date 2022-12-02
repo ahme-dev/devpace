@@ -1,3 +1,5 @@
+import type { Duration } from "./utils";
+
 export type ConfigKeys = "rounds" | "focus" | "break" | "rest";
 
 export interface Config {
@@ -30,15 +32,15 @@ export interface Config {
 export interface Session {
 	status: "ready" | "paused" | "running" | "finished";
 	at: {
-		time: number;
+		time: Duration;
 		index: number;
 	};
 	stages: SessionStage[];
-	duration: number;
+	duration: Duration;
 	date: string;
 }
 
 export interface SessionStage {
-	length: number;
+	length: Duration;
 	type: "focus" | "break" | "rest";
 }

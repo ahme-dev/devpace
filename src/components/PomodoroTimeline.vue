@@ -18,7 +18,7 @@
 				type="success"
 				v-else
 				v-for="s in store.history"
-				:title="`${s.duration.toString()} mins`"
+				:title="`${s.duration.minutes} mins`"
 				:content="`${s.stages.length / 2} round(s)`"
 				:time="s.date"
 			/>

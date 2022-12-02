@@ -3,6 +3,9 @@ import { defineStore } from "pinia";
 
 import type { Config, Session } from "./pomodoroTypes";
 
+import { makeDuration, type Duration } from "./utils";
+import { plusSecond, subSecond, durationsEqual } from "./utils";
+
 export const usePomodoroStore = defineStore("pomodoro", () => {
 	// used for session creation
 	// at field is bound to ui
@@ -37,11 +40,11 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 	let current = ref<Session>({
 		status: "ready",
 		at: {
-			time: 0,
+			time: makeDuration(),
 			index: 0,
 		},
 		stages: [],
-		duration: 0,
+		duration: makeDuration(),
 		date: "",
 	});
 
@@ -50,9 +53,9 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 
 	// set overall duration of the session
 	const getDuration = () => {
-		let duration = 0;
+		let duration = makeDuration();
 		for (let stage of current.value.stages) {
-			duration += stage.length;
+			duration.minutes += stage.length.minutes;
 		}
 		return duration;
 	};
@@ -65,14 +68,14 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 			// add focus stage
 			current.value.stages.push({
 				type: "focus",
-				length: config.value.focus.at,
+				length: { minutes: config.value.focus.at, seconds: 0 },
 			});
 
 			// if last round, only add rest and skip break
 			if (i + 1 == config.value.rounds.at) {
 				current.value.stages.push({
 					type: "rest",
-					length: config.value.rest.at,
+					length: { minutes: config.value.rest.at, seconds: 0 },
 				});
 				continue;
 			}
@@ -80,7 +83,7 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 			// add break stage
 			current.value.stages.push({
 				type: "break",
-				length: config.value.break.at,
+				length: { minutes: config.value.break.at, seconds: 0 },
 			});
 		}
 
@@ -93,8 +96,10 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 		const interval = setInterval(() => {
 			// if reached the duration
 			if (
-				current.value.stages[current.value.at.index].length ===
-				current.value.at.time
+				durationsEqual(
+					current.value.stages[current.value.at.index].length,
+					current.value.at.time
+				)
 			) {
 				// if last stage then end session
 				if (current.value.at.index + 1 === current.value.stages.length) {
@@ -102,13 +107,13 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 				} else {
 					// go to next stage and reset timer;
 					current.value.at.index += 1;
-					current.value.at.time = 0;
+					current.value.at.time = makeDuration();
 					pauseSession();
 				}
 			}
 
 			// add to timer if running
-			if (current.value.status === "running") current.value.at.time += 1;
+			if (current.value.status === "running") plusSecond(current.value.at.time);
 		}, 1000);
 
 		resumeSession();
@@ -128,9 +133,9 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 		// reset current
 		current.value.status = "ready";
 		current.value.at.index = 0;
-		current.value.at.time = 0;
+		current.value.at.time = makeDuration();
 		current.value.stages = [];
-		current.value.duration = 0;
+		current.value.duration = makeDuration();
 		current.value.date = "";
 	};
 

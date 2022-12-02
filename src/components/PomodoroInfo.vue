@@ -2,6 +2,7 @@
 	import { NText, NSpace, NButton } from "naive-ui";
 
 	import { usePomodoroStore } from "@/store/pomodoro";
+	import { makeDuration } from "@/store/utils";
 	const store = usePomodoroStore();
 </script>
 
@@ -24,7 +25,11 @@
 		<NText>
 			Session in a
 			{{ store.current.stages[store.current.at.index].type }} stage,
-			{{ store.current.at.time === 0 ? "waiting" : store.current.status }}.
+			{{
+				store.current.at.time === makeDuration()
+					? "waiting"
+					: store.current.status
+			}}.
 		</NText>
 		<NSpace align="center">
 			<NButton

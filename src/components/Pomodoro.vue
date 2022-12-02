@@ -7,6 +7,7 @@
 
 	import { usePomodoroStore } from "@/store/pomodoro";
 	import PomodoroInfo from "./PomodoroInfo.vue";
+	import { getDurationString } from "@/store/utils";
 	const store = usePomodoroStore();
 
 	// do an action on the session based on status
@@ -71,11 +72,9 @@
 						secondary
 						type="primary"
 					>
-						{{
-							store.current.stages[store.current.at.index].length -
-							store.current.at.time
-						}}
-						mins left
+						{{ getDurationString(store.current.at.time) }} of
+						{{ store.current.stages[store.current.at.index].length.minutes }}
+						mins
 					</NButton>
 				</div>
 			</div>
