@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 	import { NButton, NGradientText, NIcon } from "naive-ui";
-	import { ArrowCircleRightRound, AccessibilityFilled } from "@vicons/material";
+	import { MenuFilled, SettingsFilled} from "@vicons/material";
 	import { ref } from "vue";
 
 	let text = ref("Take your time, you'll make something great.");
@@ -19,12 +19,12 @@
 			<!-- options -->
 			<NButton circle>
 				<template #icon>
-					<NIcon><ArrowCircleRightRound /></NIcon>
+					<NIcon><MenuFilled /></NIcon>
 				</template>
 			</NButton>
 			<NButton circle>
 				<template #icon>
-					<NIcon><AccessibilityFilled /></NIcon>
+					<NIcon><SettingsFilled /></NIcon>
 				</template>
 			</NButton>
 		</div>
