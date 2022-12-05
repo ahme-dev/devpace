@@ -151,4 +151,6 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 		resumeSession,
 		pauseSession,
 	};
+}, {
+	persist: true
 });
