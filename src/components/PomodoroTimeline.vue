@@ -1,6 +1,5 @@
 <script setup lang="ts">
 	import { NTimeline, NTimelineItem } from "naive-ui";
-
 	import { usePomodoroStore } from "@/store/pomodoro";
 	const store = usePomodoroStore();
 </script>
@@ -20,7 +19,7 @@
 				v-for="s in store.history"
 				:title="`${s.duration.minutes} mins`"
 				:content="`${s.stages.length / 2} round(s)`"
-				:time="s.date"
+				:time="s.date.day + ' at ' + s.date.time"
 			/>
 		</NTimeline>
 	</div>
