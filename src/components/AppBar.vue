@@ -58,7 +58,7 @@
 		<!-- bottom -->
 		<div style="display: flex; gap: 1rem; align-items: center">
 			<!-- logo -->
-			<NImage src="../../logo.png" width="130" />
+			<NImage src="/logo.png" width="130" />
 
 			<!-- options -->
 			<NButton circle @click="settingsIsShown = !settingsIsShown">
