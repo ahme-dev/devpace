@@ -6,6 +6,7 @@
 		NText,
 		NDrawer,
 		NDrawerContent,
+		NImage,
 	} from "naive-ui";
 	import { HelpFilled, SettingsFilled } from "@vicons/material";
 	import { ref } from "vue";
@@ -17,7 +18,7 @@
 </script>
 
 <template>
-	<div style="display: flex; flex-direction: column">
+	<div style="display: flex; flex-direction: column; gap: 0.5rem">
 		<NDrawer v-model:show="settingsIsShown" placement="left">
 			<NDrawerContent title="Settings" closable>
 				Some configuration is gonna be here.
@@ -36,7 +37,7 @@
 						<a href="http://www.naiveui.com">NaiveUI</a>
 					</p>
 					<p>
-						Source available under BSD3 license on
+						Open-source on
 						<a href="https://github.com/ahmeddots/devpace">Github</a>
 					</p>
 				</div>
@@ -49,7 +50,7 @@
 		<!-- bottom -->
 		<div style="display: flex; gap: 1rem; align-items: center">
 			<!-- logo -->
-			<NGradientText :size="28">devpace</NGradientText>
+			<NImage src="../../logo.png" width="130" />
 
 			<!-- options -->
 			<NButton circle @click="settingsIsShown = !settingsIsShown">
@@ -69,8 +70,8 @@
 
 <style scoped>
 	a {
-		color: inherit;
 		font-weight: bold;
 		text-decoration: none;
+		color: #63e2b7;
 	}
 </style>
