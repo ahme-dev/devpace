@@ -1,27 +1,35 @@
 <script lang="ts" setup>
 	import {
 		NButton,
-		NGradientText,
+		NCard,
 		NIcon,
 		NText,
 		NDrawer,
 		NDrawerContent,
 		NImage,
+		NSwitch,
 	} from "naive-ui";
 	import { HelpFilled, SettingsFilled } from "@vicons/material";
+	import { useMainStore } from "@/store/main";
 	import { ref } from "vue";
 
 	let text = ref("Take your time, you'll make something great.");
 
 	let settingsIsShown = ref(false);
 	let infoIsShown = ref(false);
+
+	// app main app
+	const mainStore = useMainStore();
 </script>
 
 <template>
 	<div style="display: flex; flex-direction: column; gap: 0.5rem">
 		<NDrawer v-model:show="settingsIsShown" placement="left">
-			<NDrawerContent title="Settings" closable>
-				Some configuration is gonna be here.
+			<NDrawerContent title="Settings" style="max-width: 100vw" closable>
+				<NCard contentStyle="display:flex;justify-content:space-between;">
+					<NText style="font-weight: bold">Dark Theme</NText>
+					<NSwitch v-model:value="mainStore.darkTheme" />
+				</NCard>
 			</NDrawerContent>
 		</NDrawer>
 

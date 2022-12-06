@@ -2,11 +2,19 @@
 	import Pomodoro from "./components/Pomodoro.vue";
 	import Notes from "./components/Notes.vue";
 	import AppBar from "./components/AppBar.vue";
-	import { NGlobalStyle, NConfigProvider, darkTheme } from "naive-ui";
+	import {
+		NGlobalStyle,
+		NConfigProvider,
+		darkTheme,
+		lightTheme,
+	} from "naive-ui";
+
+	import { useMainStore } from "@/store/main";
+	const mainStore = useMainStore();
 </script>
 
 <template>
-	<NConfigProvider :theme="darkTheme">
+	<NConfigProvider :theme="mainStore.darkTheme ? darkTheme : lightTheme">
 		<div class="app">
 			<Notes style="height: fit-content" />
 
