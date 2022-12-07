@@ -1,6 +1,6 @@
 <script setup lang="ts">
-	import { PlayArrowFilled, PauseFilled } from "@vicons/material";
-	import { NCard, NText, NButton, NIcon } from "naive-ui";
+	import { PlayArrowFilled, PauseFilled, CancelFilled } from "@vicons/material";
+	import { NCard, NText, NButton, NIcon, NPopconfirm } from "naive-ui";
 
 	import PomodoroItem from "./PomodoroItem.vue";
 	import PomodoroTimeline from "./PomodoroTimeline.vue";
@@ -54,12 +54,25 @@
 
 				<!-- Buttons and Counter -->
 				<div style="display: flex; gap: 1rem">
-					<!-- Button -->
+					<!-- Control Button -->
 					<NButton circle @click="sessionAction">
 						<template #icon>
 							<NIcon>
 								<PauseFilled v-if="store.current.status === 'running'" />
 								<PlayArrowFilled v-else />
+							</NIcon>
+						</template>
+					</NButton>
+
+					<!-- Cancel Button -->
+					<NButton
+						circle
+						@click="store.resetCurrent"
+						v-if="store.current.status === 'paused'"
+					>
+						<template #icon>
+							<NIcon>
+								<CancelFilled />
 							</NIcon>
 						</template>
 					</NButton>

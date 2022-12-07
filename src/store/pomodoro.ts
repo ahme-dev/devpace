@@ -173,6 +173,7 @@ export const usePomodoroStore = defineStore(
 			createSession,
 			resumeSession,
 			pauseSession,
+			resetCurrent,
 		};
 	},
 	{
