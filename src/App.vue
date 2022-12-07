@@ -7,6 +7,7 @@
 		NConfigProvider,
 		darkTheme,
 		lightTheme,
+		NMessageProvider,
 	} from "naive-ui";
 
 	import { useMainStore } from "@/store/main";
@@ -15,14 +16,15 @@
 
 <template>
 	<NConfigProvider :theme="mainStore.darkTheme ? darkTheme : lightTheme">
-		<div class="app">
-			<Notes style="height: fit-content" />
+		<NMessageProvider>
+			<div class="app">
+				<Notes style="height: fit-content" />
 
-			<Pomodoro style="height: fit-content" />
+				<Pomodoro style="height: fit-content" />
 
-			<AppBar style="align-self: flex-end; padding: 1rem" />
-		</div>
-
+				<AppBar style="align-self: flex-end; padding: 1rem" />
+			</div>
+		</NMessageProvider>
 		<!-- style to body -->
 		<NGlobalStyle></NGlobalStyle>
 	</NConfigProvider>

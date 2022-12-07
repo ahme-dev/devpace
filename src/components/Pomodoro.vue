@@ -1,6 +1,13 @@
 <script setup lang="ts">
 	import { PlayArrowFilled, PauseFilled, CancelFilled } from "@vicons/material";
-	import { NCard, NText, NButton, NIcon, NPopconfirm } from "naive-ui";
+	import {
+		NCard,
+		NText,
+		NButton,
+		NIcon,
+		NPopconfirm,
+		useMessage,
+	} from "naive-ui";
 
 	import PomodoroItem from "./PomodoroItem.vue";
 	import PomodoroTimeline from "./PomodoroTimeline.vue";
@@ -10,6 +17,7 @@
 	import { getDurationString } from "@/store/utils";
 	const store = usePomodoroStore();
 
+	const message = useMessage();
 	// do an action on the session based on status
 	const sessionAction = () => {
 		switch (store.current.status) {
@@ -20,9 +28,15 @@
 				store.resumeSession();
 				break;
 			case "ready":
+				message.success("Session started");
 				store.createSession();
 				break;
 		}
+	};
+
+	const sessionCancel = () => {
+		store.resetCurrent();
+		message.warning("Session cancelled");
 	};
 </script>
 
@@ -67,7 +81,7 @@
 					<!-- Cancel Button -->
 					<NButton
 						circle
-						@click="store.resetCurrent"
+						@click="sessionCancel"
 						v-if="store.current.status === 'paused'"
 					>
 						<template #icon>

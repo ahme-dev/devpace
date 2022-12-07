@@ -1,10 +1,16 @@
 <script setup lang="ts">
 	import { PlusFilled } from "@vicons/material";
-	import { NCard, NTabs, NTabPane, NButton, NIcon } from "naive-ui";
+	import { NCard, NTabs, NTabPane, NButton, NIcon, useMessage } from "naive-ui";
 	import NotesDay from "./NotesDay.vue";
 
 	import { useNotesStore } from "@/store/notes";
 	const store = useNotesStore();
+
+	const message = useMessage();
+	const addNote = (day: any) => {
+		store.addNote(day);
+		message.success("Note added");
+	};
 </script>
 
 <template>
@@ -19,7 +25,7 @@
 				<!-- list of notes -->
 				<NotesDay :dayName="day.name"></NotesDay>
 				<!-- add button -->
-				<NButton circle @click="store.addNote(day)" style="margin-top: 2rem">
+				<NButton circle @click="addNote(day)" style="margin-top: 2rem">
 					<template #icon>
 						<NIcon>
 							<PlusFilled></PlusFilled>
