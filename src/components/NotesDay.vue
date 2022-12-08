@@ -25,7 +25,6 @@
 					:autosize="{
 						maxRows: 5,
 					}"
-					@blur="store.cleanNotes(day)"
 					show-count
 					placeholder="write something"
 					v-model:value="day.notes[id]"

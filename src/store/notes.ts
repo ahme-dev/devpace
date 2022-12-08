@@ -32,13 +32,11 @@ export const useNotesStore = defineStore(
 			return tab ? tab : days.value[1];
 		};
 
-		let addNote = (day: Day) => day.notes.push("new");
+		let addNote = (day: Day) => day.notes.push("");
 
-		let cleanNotes = (day: Day) =>
-			setTimeout(
-				() => (day.notes = day.notes.filter((note) => note.trim() !== "")),
-				1000
-			);
+		let cleanNotes = (day: Day) => {
+			day.notes = day.notes.filter((note) => note.trim() !== "");
+		};
 
 		return { days, getDay, addNote, cleanNotes };
 	},
