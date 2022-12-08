@@ -24,8 +24,12 @@
 
 <template>
 	<div style="display: flex; flex-direction: column; gap: 0.5rem">
-		<NDrawer v-model:show="settingsIsShown" placement="left">
-			<NDrawerContent title="Settings" style="max-width: 100vw" closable>
+		<NDrawer
+			v-model:show="settingsIsShown"
+			placement="left"
+			style="max-width: 100vw; min-width: 50vmin"
+		>
+			<NDrawerContent title="Settings" closable>
 				<NCard contentStyle="display:flex;justify-content:space-between;">
 					<NText style="font-weight: bold">Dark Theme</NText>
 					<NSwitch v-model:value="mainStore.darkTheme" />
@@ -34,8 +38,12 @@
 		</NDrawer>
 
 		<!-- Info Drawer -->
-		<NDrawer v-model:show="infoIsShown" placement="left">
-			<NDrawerContent title="Info" style="max-width: 100vw" closable>
+		<NDrawer
+			v-model:show="infoIsShown"
+			placement="left"
+			style="max-width: 100vw; min-width: 50vmin"
+		>
+			<NDrawerContent title="Info" closable>
 				<div style="display: flex; flex-direction: column; gap: 0.5rem">
 					<p>Developed by <a href="https://ahmed.systems">ahmed.systems</a></p>
 					<p>
