@@ -36,7 +36,15 @@
 	<!-- no data -->
 	<NList v-else>
 		<NListItem>
-			<NText> Nothing to show! </NText>
+			<NInput
+				type="textarea"
+				placeholder="Nothing to show"
+				:autosize="{
+					maxRows: 2,
+				}"
+				:disabled="true"
+				style="background-color: transparent"
+			/>
 		</NListItem>
 	</NList>
 </template>
