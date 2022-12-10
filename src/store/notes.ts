@@ -27,15 +27,25 @@ export const useNotesStore = defineStore(
 		]);
 
 		let getDay = (dayName: Days): Day => {
-			let tab = days.value.find((day) => day.name == dayName);
+			const tab = days.value.find((day) => day.name == dayName);
 
 			return tab ? tab : days.value[1];
 		};
 
 		let addNote = (day: Day) => day.notes.push("");
 
-		let cleanNotes = (day: Day) => {
-			day.notes = day.notes.filter((note) => note.trim() !== "");
+		let cleanNotes = (day: Day): boolean => {
+			// filter out empty notes
+			const cleaned = day.notes.filter((note) => note.trim() !== "");
+
+			// if no changes made return false
+			if (JSON.stringify(cleaned) === JSON.stringify(day.notes)) {
+				return false;
+			}
+
+			// else set new value and return true
+			day.notes = cleaned;
+			return true;
 		};
 
 		return { days, getDay, addNote, cleanNotes };

@@ -7,13 +7,16 @@
 	const store = useNotesStore();
 
 	const message = useMessage();
+
 	const addNote = (day: any) => {
 		store.addNote(day);
 		message.success("Note added");
 	};
+
 	const cleanNotes = (day: any) => {
-		store.cleanNotes(day);
-		message.warning("Empty notes cleared");
+		store.cleanNotes(day)
+			? message.warning("Empty notes cleared")
+			: message.info("No empty notes found");
 	};
 </script>
 
