@@ -8,6 +8,9 @@
 		NPopconfirm,
 		useMessage,
 	} from "naive-ui";
+	import { computed } from "vue";
+
+	import { useTitle } from "@vueuse/core";
 
 	import PomodoroItem from "./PomodoroItem.vue";
 	import PomodoroTimeline from "./PomodoroTimeline.vue";
@@ -38,6 +41,20 @@
 		store.resetCurrent();
 		message.warning("Session cancelled");
 	};
+
+	const title = computed(() => {
+		if (store.current.status == "running" || store.current.status == "paused") {
+			return `
+				${store.current.status}:
+				${store.current.stages[store.current.at.index].type}
+				${
+					store.current.stages[store.current.at.index].length.minutes -
+					store.current.at.time.minutes
+				}mins left`;
+		}
+	});
+
+	useTitle(title);
 </script>
 
 <template>
