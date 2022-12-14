@@ -108,12 +108,17 @@ export const usePomodoroStore = defineStore(
 				});
 			}
 
-			startsession();
+			startInterval();
 		};
 
 		// session control
 
-		const startsession = () => {
+		let sessionInterval = ref(0);
+
+		const startInterval = () => {
+			// if an interval is running don't make another one
+			if (sessionInterval.value !== 0) return;
+
 			const interval = setInterval(() => {
 				// if reached the duration
 				if (
@@ -137,6 +142,8 @@ export const usePomodoroStore = defineStore(
 				if (current.value.status === "running")
 					plusSecond(current.value.at.time);
 			}, 1000);
+
+			sessionInterval.value = interval;
 		};
 
 		const endSession = (interval: number) => {
@@ -169,6 +176,7 @@ export const usePomodoroStore = defineStore(
 			history,
 
 			createSession,
+			startInterval,
 			resumeSession,
 			pauseSession,
 			resetCurrent,

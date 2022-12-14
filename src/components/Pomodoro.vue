@@ -57,8 +57,10 @@
 
 	useTitle(title);
 
-	// start interval on app launch
-	onMounted(() => store.createSession());
+	// start an interval on app launch
+	onMounted(() => {
+		store.startInterval();
+	});
 </script>
 
 <template>
