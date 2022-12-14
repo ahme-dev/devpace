@@ -8,7 +8,7 @@
 		NPopconfirm,
 		useMessage,
 	} from "naive-ui";
-	import { computed } from "vue";
+	import { computed, onMounted } from "vue";
 
 	import { useTitle } from "@vueuse/core";
 
@@ -33,6 +33,7 @@
 			case "ready":
 				message.success("Session started");
 				store.createSession();
+				store.resumeSession();
 				break;
 		}
 	};
@@ -55,6 +56,9 @@
 	});
 
 	useTitle(title);
+
+	// start interval on app launch
+	onMounted(() => store.createSession());
 </script>
 
 <template>

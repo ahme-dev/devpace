@@ -137,8 +137,6 @@ export const usePomodoroStore = defineStore(
 				if (current.value.status === "running")
 					plusSecond(current.value.at.time);
 			}, 1000);
-
-			resumeSession();
 		};
 
 		const endSession = (interval: number) => {
