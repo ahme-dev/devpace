@@ -8,6 +8,7 @@
 		NDrawerContent,
 		NImage,
 		NSwitch,
+		NSelect,
 	} from "naive-ui";
 	import { HelpFilled, SettingsFilled } from "@vicons/material";
 	import { useMainStore } from "@/store/main";
@@ -21,7 +22,7 @@
 	const mainStore = useMainStore();
 
 	// on bar mount, call get text
-	onMounted(async () => (text.value = await mainStore.getText()));
+	onMounted(async () => (text.value = await mainStore.getApiText()));
 </script>
 
 <template>
@@ -32,9 +33,25 @@
 			style="max-width: 100vw; min-width: 50vmin"
 		>
 			<NDrawerContent title="Settings" closable>
-				<NCard contentStyle="display:flex;justify-content:space-between;">
+				<NCard
+					contentStyle="display:flex;justify-content:space-between;align-items:center"
+				>
 					<NText style="font-weight: bold">Dark Theme</NText>
 					<NSwitch v-model:value="mainStore.darkTheme" />
+				</NCard>
+
+				<NCard
+					contentStyle="display:flex;justify-content:space-between;align-items:center"
+				>
+					<NText style="font-weight: bold">Api Text</NText>
+					<NSelect
+						style="width: 8rem"
+						v-model:value="mainStore.apiText"
+						:options="[
+							{ label: 'Facts', value: 'facts' },
+							{ label: 'Phrases', value: 'phrase' },
+						]"
+					/>
 				</NCard>
 			</NDrawerContent>
 		</NDrawer>
