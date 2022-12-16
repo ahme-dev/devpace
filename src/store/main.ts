@@ -8,7 +8,13 @@ export const useMainStore = defineStore(
 
 		let toggleTheme = () => (darkTheme.value = !darkTheme.value);
 
-		return { darkTheme, toggleTheme };
+		let getText = async () => {
+			return fetch("https://corporatebs-generator.sameerkumar.website/")
+				.then((res) => res.json())
+				.then((json) => json.phrase);
+		};
+
+		return { getText, darkTheme, toggleTheme };
 	},
 	{ persist: true }
 );

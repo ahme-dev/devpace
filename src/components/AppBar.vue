@@ -11,15 +11,17 @@
 	} from "naive-ui";
 	import { HelpFilled, SettingsFilled } from "@vicons/material";
 	import { useMainStore } from "@/store/main";
-	import { ref } from "vue";
+	import { ref, onMounted } from "vue";
 
 	let text = ref("Take your time, you'll make something great.");
 
 	let settingsIsShown = ref(false);
 	let infoIsShown = ref(false);
 
-	// app main app
 	const mainStore = useMainStore();
+
+	// on bar mount, call get text
+	onMounted(async () => (text.value = await mainStore.getText()));
 </script>
 
 <template>
