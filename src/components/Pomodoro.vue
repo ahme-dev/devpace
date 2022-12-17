@@ -59,7 +59,11 @@
 	// on app launch
 	onMounted(() => {
 		// start an interval, only if a session is in progress
-		if (store.current.status !== "ready") store.startInterval();
+		if (store.current.status !== "ready") {
+			store.startInterval();
+			// pause on refresh
+			store.pauseSession();
+		}
 	});
 
 	// notifications
