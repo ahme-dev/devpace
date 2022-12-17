@@ -48,7 +48,10 @@ export const usePomodoroStore = defineStore(
 			stages: [],
 			duration: makeDuration(),
 			date: {
-				time: "00:00",
+				time: {
+					hours: 0,
+					minutes: 0,
+				},
 				day: 0,
 				month: 0,
 				year: 0,
@@ -65,7 +68,10 @@ export const usePomodoroStore = defineStore(
 				day: 0,
 				month: 0,
 				year: 0,
-				time: "00:00",
+				time: {
+					hours: 0,
+					minutes: 0,
+				},
 			};
 		};
 
@@ -163,7 +169,10 @@ export const usePomodoroStore = defineStore(
 				day: now.getDate(),
 				month: now.getMonth(),
 				year: now.getFullYear(),
-				time: `${now.getHours()}:${now.getMinutes()}`,
+				time: {
+					hours: now.getHours(),
+					minutes: now.getMinutes(),
+				},
 			};
 			// put into history
 			history.value.push({ ...current.value });

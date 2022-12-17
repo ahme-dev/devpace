@@ -38,3 +38,23 @@ export function subSecond(d: Duration) {
 		d.seconds -= 1;
 	}
 }
+
+export function getTimeString(
+	twentyFourHours: boolean,
+	hours: number,
+	minutes: number
+) {
+	// 24 hour system
+
+	if (twentyFourHours) return `${addZeros(hours)}:${addZeros(minutes)}`;
+
+	// 12 hour system
+
+	if (hours == 24) return `12:${addZeros(minutes)} AM`;
+	if (hours == 12) return `12:${addZeros(minutes)} PM`;
+	return hours > 12
+		? `${addZeros(hours - 12)}:${addZeros(minutes)} PM`
+		: `${addZeros(hours)}:${addZeros(minutes)} AM`;
+}
+
+const addZeros = (num: number) => (num < 10 ? `0${num}` : num);

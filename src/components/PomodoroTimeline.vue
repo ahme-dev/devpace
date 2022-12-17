@@ -2,7 +2,10 @@
 	import { NButton, NIcon, NTimeline, NTimelineItem, NTooltip } from "naive-ui";
 	import { ClearAllFilled } from "@vicons/material";
 	import { usePomodoroStore } from "@/store/pomodoro";
+	import { getTimeString } from "@/store/utils";
+	import { useMainStore } from "@/store/main";
 	const store = usePomodoroStore();
+	const mainStore = useMainStore();
 </script>
 
 <template>
@@ -20,7 +23,15 @@
 				v-for="s in store.history"
 				:title="`${s.duration.minutes} mins`"
 				:content="`${s.stages.length / 2} round(s)`"
-				:time="s.date.day + ' at ' + s.date.time"
+				:time="
+					s.date.day +
+					' at ' +
+					getTimeString(
+						mainStore.twentyFourHours,
+						s.date.time.hours,
+						s.date.time.minutes
+					)
+				"
 			/>
 
 			<NTooltip trigger="hover">

@@ -8,6 +8,8 @@ export const useMainStore = defineStore(
 
 		let deleteButtons = ref(false);
 
+		let twentyFourHours = ref(true);
+
 		let apiText = ref<"phrase" | "facts">("facts");
 		let getApiText = async () => {
 			switch (apiText.value) {
@@ -29,6 +31,7 @@ export const useMainStore = defineStore(
 			getApiText,
 			darkTheme,
 			deleteButtons,
+			twentyFourHours,
 		};
 	},
 	{ persist: true }

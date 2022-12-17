@@ -47,6 +47,13 @@
 				<NCard
 					contentStyle="display:flex;justify-content:space-between;align-items:center"
 				>
+					<NText style="font-weight: bold">24 Hour System</NText>
+					<NSwitch v-model:value="mainStore.twentyFourHours" />
+				</NCard>
+
+				<NCard
+					contentStyle="display:flex;justify-content:space-between;align-items:center"
+				>
 					<NText style="font-weight: bold">Delete Buttons</NText>
 					<NSwitch v-model:value="mainStore.deleteButtons" />
 				</NCard>

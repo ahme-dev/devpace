@@ -38,7 +38,10 @@ export interface Session {
 	stages: SessionStage[];
 	duration: Duration;
 	date: {
-		time: string;
+		time: {
+			hours: number;
+			minutes: number;
+		};
 		day: number;
 		month: number;
 		year: number;
