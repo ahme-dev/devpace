@@ -8,9 +8,8 @@
 		NPopconfirm,
 		useMessage,
 	} from "naive-ui";
-	import { computed, onMounted } from "vue";
-
-	import { useTitle } from "@vueuse/core";
+	import { computed, onMounted, watch } from "vue";
+	import { useTitle, useWebNotification } from "@vueuse/core";
 
 	import PomodoroItem from "./PomodoroItem.vue";
 	import PomodoroTimeline from "./PomodoroTimeline.vue";
@@ -60,6 +59,19 @@
 	// start an interval on app launch
 	onMounted(() => {
 		store.startInterval();
+	});
+
+	// notifications
+
+	const { show: showFinished } = useWebNotification({
+		title: "Session Finished!",
+		body: "Your current session in Devpace is finished.",
+	});
+
+	// if a new session is added to history (meaning finished)
+	watch(store.history, async (newState, oldState) => {
+		// show the finished notification
+		showFinished();
 	});
 </script>
 
