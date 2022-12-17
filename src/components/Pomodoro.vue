@@ -69,9 +69,10 @@
 		body: "Your current session in Devpace is finished.",
 	});
 
-	// if a new session is added to history (meaning finished)
+	// when history changes
 	watch(store.history, async (newState, oldState) => {
 		// show the finished notification
+		// (assuming a session was added to history)
 		showFinished();
 	});
 </script>

@@ -72,6 +72,10 @@ export const usePomodoroStore = defineStore(
 		// history of sessions
 		let history = ref<Session[]>([]);
 
+		const clearHistory = () => {
+			history.value = [];
+		};
+
 		// set overall duration of the session
 		const getDuration = () => {
 			let duration = makeDuration();
@@ -175,6 +179,7 @@ export const usePomodoroStore = defineStore(
 			config,
 			history,
 
+			clearHistory,
 			createSession,
 			startInterval,
 			resumeSession,
