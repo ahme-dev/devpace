@@ -1,6 +1,14 @@
 <script setup lang="ts">
 	import { PlusFilled, ClearAllFilled } from "@vicons/material";
-	import { NCard, NTabs, NTabPane, NButton, NIcon, useMessage } from "naive-ui";
+	import {
+		NCard,
+		NTabs,
+		NTabPane,
+		NButton,
+		NIcon,
+		useMessage,
+		NTooltip,
+	} from "naive-ui";
 	import NotesDay from "./NotesDay.vue";
 
 	import { useNotesStore } from "@/store/notes";
@@ -34,21 +42,33 @@
 
 				<div style="display: flex; gap: 1rem; margin-top: 1rem">
 					<!-- add button -->
-					<NButton circle @click="addNote(day)">
-						<template #icon>
-							<NIcon>
-								<PlusFilled></PlusFilled>
-							</NIcon>
+
+					<NTooltip trigger="hover">
+						<template #trigger>
+							<NButton circle @click="addNote(day)">
+								<template #icon>
+									<NIcon>
+										<PlusFilled></PlusFilled>
+									</NIcon>
+								</template>
+							</NButton>
 						</template>
-					</NButton>
+						Add new note
+					</NTooltip>
+
 					<!-- clear button -->
-					<NButton circle @click="cleanNotes(day)">
-						<template #icon>
-							<NIcon>
-								<ClearAllFilled></ClearAllFilled>
-							</NIcon>
+					<NTooltip trigger="hover">
+						<template #trigger>
+							<NButton circle @click="cleanNotes(day)">
+								<template #icon>
+									<NIcon>
+										<ClearAllFilled></ClearAllFilled>
+									</NIcon>
+								</template>
+							</NButton>
 						</template>
-					</NButton>
+						Clear out empty notes
+					</NTooltip>
 				</div>
 			</NTabPane>
 		</NTabs>
