@@ -6,7 +6,7 @@ export const useMainStore = defineStore(
 	() => {
 		let darkTheme = ref(true);
 
-		let deleteButtons = ref(true);
+		let deleteButtons = ref(false);
 
 		let apiText = ref<"phrase" | "facts">("facts");
 		let getApiText = async () => {
