@@ -1,6 +1,15 @@
 <script setup lang="ts">
-	import { NList, NListItem, NText, NInput, NScrollbar } from "naive-ui";
+	import {
+		NList,
+		NListItem,
+		NIcon,
+		NInput,
+		NScrollbar,
+		NButton,
+		useMessage,
+	} from "naive-ui";
 	import type { Days } from "@/store/notes";
+	import { ClearFilled } from "@vicons/material";
 
 	import { useNotesStore } from "@/store/notes";
 	import { defineProps } from "vue";
@@ -10,6 +19,13 @@
 	// get data from store based on type of pane
 	const store = useNotesStore();
 	let day = store.getDay(props.dayName);
+
+	const message = useMessage();
+
+	const deleteNote = (day: any, id: number) => {
+		store.deleteNote(day, id);
+		message.error("Note deleted");
+	};
 </script>
 
 <template>
@@ -20,15 +36,26 @@
 	>
 		<NList>
 			<NListItem v-for="(item, id) in day.notes">
-				<NInput
-					type="textarea"
-					:autosize="{
-						maxRows: 5,
-					}"
-					show-count
-					placeholder="write something"
-					v-model:value="day.notes[id]"
-				></NInput>
+				<div style="display: flex; gap: 1rem">
+					<NInput
+						type="textarea"
+						:autosize="{
+							maxRows: 5,
+						}"
+						show-count
+						:tabindex="id"
+						placeholder="write something"
+						v-model:value="day.notes[id]"
+					>
+					</NInput>
+					<NButton circle @click="deleteNote(day, id)">
+						<template #icon>
+							<NIcon>
+								<ClearFilled />
+							</NIcon>
+						</template>
+					</NButton>
+				</div>
 			</NListItem>
 		</NList>
 	</NScrollbar>

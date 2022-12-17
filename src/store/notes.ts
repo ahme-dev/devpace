@@ -32,6 +32,9 @@ export const useNotesStore = defineStore(
 			return tab ? tab : days.value[1];
 		};
 
+		let deleteNote = (day: Day, id: number) =>
+			(day.notes = day.notes.filter((note, i) => (i != id ? true : false)));
+
 		let addNote = (day: Day) => day.notes.push("");
 
 		let cleanNotes = (day: Day): boolean => {
@@ -48,7 +51,7 @@ export const useNotesStore = defineStore(
 			return true;
 		};
 
-		return { days, getDay, addNote, cleanNotes };
+		return { days, getDay, deleteNote, addNote, cleanNotes };
 	},
 	{ persist: true }
 );
