@@ -73,8 +73,23 @@
 			placement="left"
 			style="max-width: 100vw; min-width: 50vmin"
 		>
-			<NDrawerContent title="Info" closable>
-				<div style="display: flex; flex-direction: column; gap: 0.5rem">
+			<NDrawerContent
+				title="Info"
+				closable
+				bodyContentStyle="display:flex;flex-direction:column;gap:1rem;"
+			>
+				<NCard contentStyle="display:flex;flex-direction:column;gap:1rem">
+					<p>
+						In the <b>notes</b> section you can <b>add</b> notes in the
+						<b>today</b> tab or the <b>tomorrow</b> one.
+					</p>
+					<p>
+						To <b>delete</b> notes, either <b>enable delete buttons</b> or
+						<b>empty out</b> the text in the note and press the <b>clear all</b>
+						button.
+					</p>
+				</NCard>
+				<NCard contentStyle="display:flex;flex-direction:column;gap:1rem">
 					<p>Developed by <a href="https://ahmed.systems">ahmed.systems</a></p>
 					<p>
 						Using
@@ -86,7 +101,7 @@
 						Open-source on
 						<a href="https://github.com/ahmeddots/devpace">Github</a>
 					</p>
-				</div>
+				</NCard>
 			</NDrawerContent>
 		</NDrawer>
 
@@ -115,7 +130,8 @@
 </template>
 
 <style scoped>
-	a {
+	a,
+	b {
 		font-weight: bold;
 		text-decoration: none;
 		color: #63e2b7;
