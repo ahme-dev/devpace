@@ -13,6 +13,7 @@
 
 	import { useNotesStore } from "@/store/notes";
 	import { defineProps } from "vue";
+	import { useMainStore } from "@/store/main";
 
 	const props = defineProps<{ dayName: Days }>();
 
@@ -26,6 +27,8 @@
 		store.deleteNote(day, id);
 		message.error("Note deleted");
 	};
+
+	const mainStore = useMainStore();
 </script>
 
 <template>
@@ -48,7 +51,12 @@
 						v-model:value="day.notes[id]"
 					>
 					</NInput>
-					<NButton circle @click="deleteNote(day, id)">
+
+					<NButton
+						v-if="mainStore.deleteButtons"
+						circle
+						@click="deleteNote(day, id)"
+					>
 						<template #icon>
 							<NIcon>
 								<ClearFilled />

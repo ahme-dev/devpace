@@ -5,7 +5,8 @@ export const useMainStore = defineStore(
 	"main",
 	() => {
 		let darkTheme = ref(true);
-		let toggleTheme = () => (darkTheme.value = !darkTheme.value);
+
+		let deleteButtons = ref(true);
 
 		let apiText = ref<"phrase" | "facts">("facts");
 		let getApiText = async () => {
@@ -23,7 +24,12 @@ export const useMainStore = defineStore(
 			}
 		};
 
-		return { apiText, getApiText, darkTheme, toggleTheme };
+		return {
+			apiText,
+			getApiText,
+			darkTheme,
+			deleteButtons,
+		};
 	},
 	{ persist: true }
 );

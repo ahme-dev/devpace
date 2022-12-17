@@ -47,6 +47,13 @@
 				<NCard
 					contentStyle="display:flex;justify-content:space-between;align-items:center"
 				>
+					<NText style="font-weight: bold">Delete Buttons</NText>
+					<NSwitch v-model:value="mainStore.deleteButtons" />
+				</NCard>
+
+				<NCard
+					contentStyle="display:flex;justify-content:space-between;align-items:center"
+				>
 					<NText style="font-weight: bold">Api Text</NText>
 					<NSelect
 						style="width: 8rem"
