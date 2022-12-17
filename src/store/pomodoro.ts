@@ -78,8 +78,12 @@ export const usePomodoroStore = defineStore(
 		// history of sessions
 		let history = ref<Session[]>([]);
 
-		const clearHistory = () => {
-			history.value = [];
+		const clearHistory = (): boolean => {
+			if (history.value.length === 0) return false;
+			else {
+				history.value = [];
+				return true;
+			}
 		};
 
 		// set overall duration of the session
