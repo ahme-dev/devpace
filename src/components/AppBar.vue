@@ -32,7 +32,11 @@
 			placement="left"
 			style="max-width: 100vw; min-width: 50vmin"
 		>
-			<NDrawerContent title="Settings" closable>
+			<NDrawerContent
+				title="Settings"
+				closable
+				bodyContentStyle="display:flex;flex-direction:column;gap:1rem;"
+			>
 				<NCard
 					contentStyle="display:flex;justify-content:space-between;align-items:center"
 				>
