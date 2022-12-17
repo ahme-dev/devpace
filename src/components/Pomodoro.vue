@@ -56,9 +56,10 @@
 
 	useTitle(title);
 
-	// start an interval on app launch
+	// on app launch
 	onMounted(() => {
-		store.startInterval();
+		// start an interval, only if a session is in progress
+		if (store.current.status !== "ready") store.startInterval();
 	});
 
 	// notifications
